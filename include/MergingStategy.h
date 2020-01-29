@@ -12,15 +12,29 @@
 
 #include <vector>
 #include <algorithm>
+#include <cstring>
 
 template <class T>
 class stdMerge{
 public:
+    stdMerge(int size){
+        this->_ptr = new T[size];
+    }
+
+    ~stdMerge(){
+        delete[] _ptr;
+    }
+
     void operator () (std::vector<T>& vect, int start1, int start2, int end){
-        std::merge(vect.begin()+start1, vect.begin()+start2,
+
+        std::copy(vect.begin()+start1, vect.begin()+start2, _ptr);
+        std::merge(_ptr, _ptr+(start2-start1),
                    vect.begin()+start2, vect.begin()+end,
                    vect.begin()+start1);
     }
+
+private:
+    T* _ptr;
 };
 
 template <class T>
