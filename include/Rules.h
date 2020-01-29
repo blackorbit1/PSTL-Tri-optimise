@@ -26,7 +26,8 @@ public:
 
         int s1, s2, s3, s4;
 
-        stack.popRun(s1, s2, s3, s4);
+        stack.popRun(s1, s2);
+        stack.popRun(s3, s4);
 
         if (s2-s1 < s4-s3){
             merge(array, s1, s3, s4);

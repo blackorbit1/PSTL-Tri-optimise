@@ -22,17 +22,14 @@ int main(){
     for(auto i: run){
         std::cout << i << " ";
     }
-
     std::cout << '\n';
 
     sort(vect, runf, merge, noMerg);
 
-//    runf(vect, run);
 
     for(auto i: vect){
         std::cout << i << " ";
     }
-
-
+    
     return 0;
 }

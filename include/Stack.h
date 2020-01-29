@@ -32,11 +32,9 @@ public:
         return size() - 1;
     }
 
-    void popRun(int& s1, int& s2, int& s3, int& s4){
-        s1 = pop();
-        s3 = pop();
-        s2 = s3 - 1;
-        s4 = lookup();
+    void popRun(int& begin, int& end){
+        begin = pop();
+        end = lookup() - 1;
     }
 
 };
