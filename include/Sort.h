@@ -10,32 +10,22 @@
 
 template <class T, class RunFinder, class MergeStrat, class Rules>
 void sort(std::vector<T>& array, RunFinder& runF, MergeStrat& merge, Rules& rules){
-    auto run = Stack<int>();
+    auto run = StackOfRun();
     runF(array, run);
-    auto stack = Stack<int>();
-
+    auto stack = StackOfRun();
 
     while(run.size()!=0){
-
         stack.push(run.pop());
-
         while (rules(array, stack, merge))
             ; //nothing
     }
 
-    while (stack.size() > 2){
-        int s1 = stack.pop();
-        int s2 = stack.pop();
-
+    int s1, s2;
+    while (stack.nbOfRun() > 1){
+        stack.popRun(s1, s2);
         merge(array, s1, s2, stack.lookup());
-        stack.push_back(s1);
+        stack.push(s1);
     }
-
-    for(int i: stack){
-        std::cout << i << " ";
-    }
-    std::cout << '\n';
-
 }
 
 #endif //SORT_SORT_H

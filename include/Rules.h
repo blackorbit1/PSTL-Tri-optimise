@@ -6,11 +6,11 @@
 #define SORT_RULES_H
 
 #include <vector>
-#include "Stack.h"
+#include "StackOfRun.h"
 template<class MergeStrat, class T>
 class noMerge {
 public:
-    bool operator()(std::vector<T> &array, Stack<int> &stack, MergeStrat merge) {
+    bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat merge) {
         return false;
     }
 };
@@ -19,7 +19,7 @@ public:
 template<class MergeStrat, class T>
 class merge1 {
 public:
-    bool operator()(std::vector<T> &array, Stack<int> &stack, MergeStrat merge) {
+    bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat merge) {
 
         if(stack.nbOfRun() <= 1)
             return false;

@@ -2,30 +2,29 @@
 // Created by bruno on 28/01/2020.
 //
 
-#ifndef SORT_STACK_H
-#define SORT_STACK_H
+#ifndef SORT_STACKOFRUN_H
+#define SORT_STACKOFRUN_H
 
 #include <vector>
 
-template<class T>
-class Stack: public std::vector<T>{ // public for debug
+class StackOfRun: public std::vector<int>{ // public for debug
 public:
-    void push(T elem){
+    void push(int elem){
         this->push_back(elem);
     }
 
-    T pop(){
-        T tmp = this->back();
+    int pop(){
+        int tmp = this->back();
         this->pop_back();
         return tmp;
     }
 
-    T lookup(){
+    int lookup(){
         return this->back();
     }
 
     int size(){
-        return std::vector<T>::size();
+        return std::vector<int>::size();
     }
 
     int nbOfRun(){
@@ -34,9 +33,9 @@ public:
 
     void popRun(int& begin, int& end){
         begin = pop();
-        end = lookup() - 1;
+        end = lookup();
     }
 
 };
 
-#endif //SORT_STACK_H
+#endif //SORT_STACKOFRUN_H
