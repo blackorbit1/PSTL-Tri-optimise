@@ -12,6 +12,7 @@ template <class T>
 class runFinder {
 public:
     void operator()(std::vector<T> &array, StackOfRun &run) {
+
         // we assume run empty and array.size()>=2
         bool increasing = array[0] < array[1];
         run.push(0);

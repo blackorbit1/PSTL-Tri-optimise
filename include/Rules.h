@@ -10,16 +10,16 @@
 template<class MergeStrat, class T>
 class noMerge {
 public:
-    bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat merge) {
+    bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat &merge) {
         return false;
     }
 };
 
 
 template<class MergeStrat, class T>
-class merge1 {
+class ShiverSort {
 public:
-    bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat merge) {
+    bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat &merge) {
 
         if(stack.nbOfRun() <= 1)
             return false;

@@ -4,4 +4,10 @@ project(sort)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-O2")
 
-add_executable(sort src/main.cpp include/MergingStategy.h src/Benchmark.cpp include/Benchmark.h include/RunFinder.h include/Sort.h include/Rules.h include/StackOfRun.h)
+find_package(benchmark REQUIRED)
+
+
+add_executable(sort src/main.cpp include/MergingStategy.h
+        include/RunFinder.h include/Sort.h include/Rules.h include/StackOfRun.h src/Generator.cpp include/Generator.h)
+
+target_link_libraries(sort benchmark -lpthread)
