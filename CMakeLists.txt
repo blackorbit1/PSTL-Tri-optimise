@@ -8,6 +8,6 @@ find_package(benchmark REQUIRED)
 
 
 add_executable(sort src/main.cpp include/MergingStategy.h
-        include/RunFinder.h include/Sort.h include/Rules.h include/StackOfRun.h src/Generator.cpp include/Generator.h)
+        include/RunFinder.h include/Sort.h include/Rules.h include/StackOfRun.h src/Generator.cpp include/Generator.h src/ToolBox.cpp include/ToolBox.h)
 
 target_link_libraries(sort benchmark -lpthread)

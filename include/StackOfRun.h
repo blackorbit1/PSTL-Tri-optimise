@@ -7,7 +7,7 @@
 
 #include <vector>
 
-class StackOfRun: public std::vector<int>{ // public for debug
+class StackOfRun: public std::vector<unsigned int>{ // public for debug
 public:
     void push(int elem){
         this->push_back(elem);
@@ -24,7 +24,7 @@ public:
     }
 
     int size(){
-        return std::vector<int>::size();
+        return std::vector<unsigned int>::size();
     }
 
     int nbOfRun(){

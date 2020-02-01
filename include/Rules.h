@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "StackOfRun.h"
+#include "ToolBox.h"
 template<class MergeStrat, class T>
 class noMerge {
 public:
@@ -20,16 +21,16 @@ template<class MergeStrat, class T>
 class ShiverSort {
 public:
     bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat &merge) {
-
+        const int c = 16;
         if(stack.nbOfRun() <= 1)
             return false;
 
         int s1, s2, s3, s4;
 
-        stack.popRun(s1, s2);
-        stack.popRun(s3, s4);
+        stack.popRun(s1, s2); // h1
+        stack.popRun(s3, s4); // h2
 
-        if (s2-s1 < s4-s3){
+        if (log_2((s2-s1)/c) >= log_2((s4-s3)/c)){
             merge(array, s1, s3, s4);
             stack.push(s1);
             return true;

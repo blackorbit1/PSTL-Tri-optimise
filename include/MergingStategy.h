@@ -26,7 +26,6 @@ public:
     }
 
     void operator () (std::vector<T>& vect, int start1, int start2, int end){
-
         std::copy(vect.begin()+start1, vect.begin()+start2, _ptr);
         std::merge(_ptr, _ptr+(start2-start1),
                    vect.begin()+start2, vect.begin()+end,
