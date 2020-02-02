@@ -2,7 +2,8 @@
 // Created by bruno on 24/01/2020.
 //
 
-//#define MY_BENCH_EXEC
+#define MY_BENCH_EXEC
+
 #ifndef MY_BENCH_EXEC
 #include "../include/Generator.h"
 
@@ -23,10 +24,11 @@ int main(){
     std::mt19937 mt(rd());
     std::uniform_int_distribution<> dis(0, max*2);
 
-    std::vector<int> vect(max);
+    //std::vector<int> vect(max);
+    //std::generate(vect.begin(), vect.end(), std::bind(dis, std::ref(mt)));
 
-    std::generate(vect.begin(), vect.end(), std::bind(dis, std::ref(mt)));
-
+    //std::vector<int> vect = {3, 4, 5, 6, 0, 1, 20, 18, 25, 21, 22, 23, 1000, 7, 8, -5, -7, -9};
+    std::vector<int> vect = {2, 5, 6, 9, 10, 23, 50, 7, 22};
 
     StackOfRun run;
 

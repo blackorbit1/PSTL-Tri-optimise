@@ -19,7 +19,7 @@ void sort(std::vector<T>& array, RunFinder& runF, MergeStrat& merge, Rules& rule
 
     while(run.size()!=0){
         stack.push(run.pop());
-        while (rules(array, stack, merge))
+        while (rules.adaptativeShiverRules(array, stack, merge))
             ; //nothing
     }
 
