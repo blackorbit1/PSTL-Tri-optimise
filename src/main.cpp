@@ -19,24 +19,18 @@
 
 int main(){
 
-    const int max = 200;
+    const int max = 150000;
     std::random_device rd;
     std::mt19937 mt(rd());
     std::uniform_int_distribution<> dis(0, max*2);
 
-    //std::vector<int> vect(max);
-    //std::generate(vect.begin(), vect.end(), std::bind(dis, std::ref(mt)));
+    std::vector<int> vect(max);
+    std::generate(vect.begin(), vect.end(), std::bind(dis, std::ref(mt)));
 
     //std::vector<int> vect = {3, 4, 5, 6, 0, 1, 20, 18, 25, 21, 22, 23, 1000, 7, 8, -5, -7, -9};
-    std::vector<int> vect = {2, 5, 6, 9, 10, 23, 50, 7, 22};
 
-    StackOfRun run;
 
-    auto merge = stdInplaceMerge<int>();
-    auto runf = runFinder<int>();
-    auto noMerg = ShiverSort<typeof(merge), int>();
-
-    shiverSort(vect);
+    adaptativeShiverSort(vect);
 
 
     for(auto i: vect){
@@ -66,7 +60,6 @@ static void BM_std_sortOnInt(benchmark::State& state){
 
         state.PauseTiming();
         delete vect;
-        vect = nullptr;
         state.ResumeTiming();
     }
 }
@@ -91,6 +84,25 @@ static void BM_shiverSortOnRandomInt(benchmark::State& state){
 }
 
 BENCHMARK(BM_shiverSortOnRandomInt)->RangeMultiplier(2)->Range(8<<8, 8<<12);
+
+
+static void BM_adaptativeShiverSortOnRandomInt(benchmark::State& state){
+    std::vector<int>* vect = nullptr;
+
+    for (auto _ : state){
+        state.PauseTiming();
+        vect = genRandomInt(state.range(0));
+        state.ResumeTiming();
+        adaptativeShiverSort(*vect);
+
+        state.PauseTiming();
+        delete vect;
+        vect = nullptr;
+        state.ResumeTiming();
+    }
+}
+
+BENCHMARK(BM_adaptativeShiverSortOnRandomInt)->RangeMultiplier(2)->Range(8<<8, 8<<12);
 BENCHMARK_MAIN();
 
 #endif // MY_BENCH_EXEC

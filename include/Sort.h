@@ -17,13 +17,12 @@ void sort(std::vector<T>& array, RunFinder& runF, MergeStrat& merge, Rules& rule
     runF(array, run);
     auto stack = StackOfRun();
 
-    while(run.size()!=0){
+    while(!run.empty()){
         stack.push(run.pop());
-        while (rules.adaptativeShiverRules(array, stack, merge))
+        while (rules(array, stack, merge))
             ; //nothing
     }
 
-    int s1, s2;
     while (stack.nbOfRun() > 1){
         int s1, s2, s3, s4;
 
@@ -49,6 +48,14 @@ void naiveMerge(std::vector<T>& array){
     auto merge = stdMerge<int>(array.size());
     auto runf = runFinder<int>();
     auto mergeRules = noMerge<typeof(merge), int>();
+    sort(array, runf, merge, mergeRules);
+}
+
+template <class T>
+void adaptativeShiverSort(std::vector<T>& array){
+    auto merge = stdMerge<int>(array.size());
+    auto runf = runFinder<int>();
+    auto mergeRules = AdaptativeShiverSort<typeof(merge), int>();
     sort(array, runf, merge, mergeRules);
 }
 #endif //SORT_SORT_H
