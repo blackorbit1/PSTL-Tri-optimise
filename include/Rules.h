@@ -58,7 +58,7 @@ class AdaptativeShiverSort {
 public:
     bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat &merge) {
         const int c = 2;
-
+        int nbOfRun = nbOfRun;
         // on ne peut appliquer les regles que s'il y a au moins 2 runs dans la pile
         if(stack.nbOfRun() <= 1){
             return false;
@@ -71,7 +71,7 @@ public:
         int l1 = log_2((s2-s1)/c);
         int l2 = log_2((s4-s3)/c);
 
-        if(stack.nbOfRun() >= 3) {
+        if(nbOfRun >= 3) {
             int s5, s6;
             stack.popRun(s5, s6); //h3
             int l3 = log_2((s6-s5)/c);
