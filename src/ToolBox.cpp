@@ -23,3 +23,6 @@ int log_2 (unsigned int value) {
     return tab32[(unsigned int)(value*0x07C4ACDD) >> 27];
 }
 
+int msb_geq(int l, int r){
+    return !((l < r) && (l < l^r));
+}

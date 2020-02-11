@@ -6,5 +6,5 @@
 #define SORT_TOOLBOX_H
 
 int log_2(unsigned int);
-
+int msb_geq(int l, int r);
 #endif //SORT_TOOLBOX_H

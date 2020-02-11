@@ -6,6 +6,8 @@
 #define SORT_STACKOFRUN_H
 
 #include <vector>
+#include <deque>
+#include <list>
 
 class StackOfRun: public std::vector<unsigned int>{ // public for debug
 public:
@@ -19,15 +21,15 @@ public:
         return tmp;
     }
 
-    int lookup(){
+    int lookup() const{
         return this->back();
     }
 
-    int size(){
+    int size() const{
         return std::vector<unsigned int>::size();
     }
 
-    int nbOfRun(){
+    int nbOfRun() const{
         return size() - 1;
     }
 
@@ -35,7 +37,6 @@ public:
         begin = pop();
         end = lookup();
     }
-
 };
 
 #endif //SORT_STACKOFRUN_H
