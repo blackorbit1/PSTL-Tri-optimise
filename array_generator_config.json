@@ -1,0 +1,16 @@
+{
+    "methode_tri" : "parti_tri_run_constant",
+    "_methodes possibles" : "parti_tri_run_constant , alea",
+
+    "nb_listes" : 10,
+    "taille_depart" : 10,
+    "taille_fin": 1000,
+
+    "nb_runs_depart" : 5,
+    "nb_runs_fin" : 100,
+    "contiens_runs_decroissants" : true,
+
+    "borne_sup" : 100000,
+    "borne_inf" : 0
+
+}
