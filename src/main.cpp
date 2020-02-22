@@ -39,11 +39,14 @@ static void BM_std_sortOnInt(benchmark::State& state){
 
 int main(int argc, char* argv[]){
     std::string file;
+    std::string done;
 
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help,h", "produce help message")
             ("file,f", po::value<std::string>(&file), "file with array to bench")
+            ("benchmark_out_format", po::value<std::string>(&done), "foo")
+            ("benchmark_out", po::value<std::string>(&done), "foo")
             ;
 
     po::variables_map vm;
@@ -51,6 +54,7 @@ int main(int argc, char* argv[]){
         po::store(parse_command_line(argc, argv, desc), vm);
     }
     catch (std::exception &e){
+        std::cout << vm.count("file") << "catch\n";
         ; // it's okayyy
     }
     po::notify(vm);

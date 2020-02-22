@@ -53,15 +53,16 @@ static void BM_timSortOnInt(benchmark::State& state){
 }
 
 void launchBench(std::string path, int argc, char* argv[]){
+    for(int i = 0; i < argc; i++)
+        std::cout << argv[i];
+    std::cout << '\n';
 
     std::ifstream infile(path);
     std::string line;
-    int i = 0;
     while (std::getline(infile, line)){
        auto temp = std::vector<int>();
        split1(line, temp);
        vects.push_back(temp);
-       std::cout << line << "\n";
     }
 
 
@@ -69,7 +70,7 @@ void launchBench(std::string path, int argc, char* argv[]){
     BENCHMARK(BM_adaptativeShiverSortOnInt)->DenseRange(0, vects.size()-1, 1);
     BENCHMARK(BM_shiverSortOnInt)->DenseRange(0, vects.size()-1, 1);
     BENCHMARK(BM_timSortOnInt)->DenseRange(0, vects.size()-1, 1);
-
+    int i = 1;
 
     ::benchmark::Initialize(&argc, argv);
     ::benchmark::RunSpecifiedBenchmarks();
