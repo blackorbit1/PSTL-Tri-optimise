@@ -6,11 +6,11 @@ successeur au TimSort
 
 ## Variables de fonctions pour array_generator_config.json
 
-t = taille de la liste précédente (taille début pour la première)
-tf = taille_fin
-td = taille_départ
-nb = nombre total de listes
-n = numéro de liste
+- t = taille de la liste précédente (taille début pour la première)
+- tf = taille_fin
+- td = taille_départ
+- nb = nombre total de listes
+- n = numéro de liste
 
 
 ## Requirements
