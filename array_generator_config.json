@@ -1,16 +1,24 @@
 {
-    "methode_tri" : "parti_tri_run_constant",
-    "_methodes possibles" : "parti_tri_run_constant , alea",
+    "methode_tri" : "parti_tri_entropie",
+    "_methodes possibles" : "alea, parti_tri_runs_alea, parti_tri_run_constant_croiss_lineaires",
 
     "nb_listes" : 10,
-    "taille_depart" : 10,
-    "taille_fin": 1000,
+    "taille" : "t + (tf - td)/nb",
+    "nb_fois_repete": 2,
+    "taille_depart" : 100,
+    "taille_fin": 10000,
+    "pas_logarithmique": false,
 
-    "nb_runs_depart" : 5,
-    "nb_runs_fin" : 100,
+    "run_size" : "taille / 6",
+    "nb_runs_depart" : 3,
+    "nb_runs_fin" : 3 ,
     "contiens_runs_decroissants" : true,
 
-    "borne_sup" : 100000,
-    "borne_inf" : 0
+    "borne_sup" : 200,
+    "borne_inf" : 0,
+
+    "anthropie" : 50,
+    "_anthropie_infos" : "en %, uniquement pour parti_tri_anthropie"
 
 }
+
