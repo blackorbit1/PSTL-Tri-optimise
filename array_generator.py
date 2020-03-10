@@ -25,12 +25,14 @@ fichier_path = open("paths","w+")
 
 for num_liste in range(nb_listes):
     #taille_liste = int(taille_liste + (taille_fin - taille_depart)/nb_listes)
+    
     t = taille_liste
     tf = taille_fin
-    td = taille_fin
+    td = taille_depart
     nb = nb_listes
     n = num_liste # variable utilisé dans le fichier json de configuration
     taille_liste = int(eval(taille_formule))
+    
     nb_runs = int(nb_runs + (nb_runs_fin - nb_runs_depart)/nb_listes)
 
     liste = [None]*taille_liste
