@@ -64,12 +64,10 @@ void launchBench(std::string path, int argc, char* argv[]){
        vects.push_back(temp);
     }
 
-
     BENCHMARK(BM_std_sortOnInt)->DenseRange(0, vects.size()-1, 1);
     BENCHMARK(BM_adaptativeShiverSortOnInt)->DenseRange(0, vects.size()-1, 1);
     BENCHMARK(BM_shiverSortOnInt)->DenseRange(0, vects.size()-1, 1);
     BENCHMARK(BM_timSortOnInt)->DenseRange(0, vects.size()-1, 1);
-    int i = 1;
 
     ::benchmark::Initialize(&argc, argv);
     ::benchmark::RunSpecifiedBenchmarks();

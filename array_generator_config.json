@@ -17,8 +17,8 @@
     "borne_sup" : 200000,
     "borne_inf" : 0,
 
-    "entropy" : 50,
-    "_entropy_infos" : "en %, uniquement pour parti_tri_anthropie"
+    "anthropie" : 50,
+    "_anthropie_infos" : "en %, uniquement pour parti_tri_anthropie"
 
 }
 

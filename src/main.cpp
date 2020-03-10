@@ -77,7 +77,8 @@ int main(int argc, char* argv[]){
     }
 
     if (vm.count("file")) {
-        launchBench("../files/test.tab", argc, argv);
+        std::cout << file << '\n';
+        launchBench(file, argc, argv);
         return 0;
     }
     if(vm.count("sandbox")){
