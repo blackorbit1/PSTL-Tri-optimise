@@ -23,9 +23,9 @@ void sort(std::vector<T>& array, RunFinder& runF, MergeStrat& merge, Rules& rule
             ; //nothing
     }
 
+
     while (stack.nbOfRun() > 1){
         int s1, s2, s3, s4;
-
         stack.popRun(s1, s2);
         stack.popRun(s3, s4);
         merge(array, s1, s3, s4);
@@ -53,7 +53,8 @@ void naiveMerge(std::vector<T>& array){
 
 template <class T>
 void adaptativeShiverSort(std::vector<T>& array){
-    auto merge = stdMerge<int>(array.size());
+//    auto merge = stdMerge<int>(array.size());
+    auto merge = stdInplaceMerge<int>();
     auto runf = runFinderInsert<int>(32);
     auto mergeRules = AdaptativeShiverSort<typeof(merge), int>();
     sort(array, runf, merge, mergeRules);
@@ -61,8 +62,8 @@ void adaptativeShiverSort(std::vector<T>& array){
 
 template <class T>
 void timSort(std::vector<T>& array){
-    auto merge = stdMerge<int>(array.size());
-    auto runf = runFinderInsert<int>(32);
+//    auto merge = stdMerge<int>(array.size());
+    auto merge = stdInplaceMerge<int>();    auto runf = runFinderInsert<int>(32);
     auto mergeRules = TimSort<typeof(merge), int>();
 
     sort(array, runf, merge, mergeRules);

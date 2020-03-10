@@ -14,6 +14,8 @@
 
 void launchBench(std::string path, int argc, char* argv[]);
 
+void launchFewBench(int argc, char* argv[]);
+
 template <class Container>
 void split1(std::string str, Container& cont){
 

@@ -39,14 +39,23 @@ static void BM_std_sortOnInt(benchmark::State& state){
 
 int main(int argc, char* argv[]){
     std::string file;
+    int idone;
     std::string done;
 
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help,h", "produce help message")
             ("file,f", po::value<std::string>(&file), "file with array to bench")
-            ("benchmark_out_format", po::value<std::string>(&done), "foo")
-            ("benchmark_out", po::value<std::string>(&done), "foo")
+            ("benchmark_out_format", po::value<std::string>(&done),
+                    "type of output file <csv|json|console> (default: console)")
+            ("benchmark_out", po::value<std::string>(&done),
+                    "name of output file")
+            ("benchmark_repetitions", po::value<int>(&idone),
+                    "number of repetitions of the benchmark (default: 1)")
+            ("benchmark_fun",
+                    "bench few fonction")
+            ("sandbox",
+                    "sandox")
             ;
 
     po::variables_map vm;
@@ -54,8 +63,7 @@ int main(int argc, char* argv[]){
         po::store(parse_command_line(argc, argv, desc), vm);
     }
     catch (std::exception &e){
-        std::cout << vm.count("file") << "catch\n";
-        ; // it's okayyy
+        std::cerr << e.what();
     }
     po::notify(vm);
     if (vm.count("help")) {
@@ -63,8 +71,28 @@ int main(int argc, char* argv[]){
         return 0;
     }
 
+    if (vm.count("benchmark_fun")) {
+        launchFewBench(argc, argv);
+        return 0;
+    }
+
     if (vm.count("file")) {
         launchBench("../files/test.tab", argc, argv);
+        return 0;
+    }
+    if(vm.count("sandbox")){
+//        auto vect = genRandomInt(1000000);
+//        timSort(*vect);
+//        delete vect;
+        std::vector<int> vect = {10, 11, 12, 13, 1, 2};
+        auto merge = stdMergeS<int>(vect.size());
+        merge(vect, 0, 4, 6);
+
+        for(auto x: vect){
+            std::cout << x << " ";
+        }
+
+
         return 0;
     }
 //
@@ -101,7 +129,7 @@ int main(int argc, char* argv[]){
 
 static void BM_std_sortOnInt(benchmark::State& state){
     std::vector<int>* vect = nullptr;
-    
+
     for (auto _ : state){
         state.PauseTiming();
         vect = genRandomInt(state.range(0));
@@ -114,7 +142,7 @@ static void BM_std_sortOnInt(benchmark::State& state){
     }
 }
 
-BENCHMARK(BM_std_sortOnInt)->RangeMultiplier(2)->Range(8<<8, 8<<12);
+BENCHMARK(BM_std_sortOnInt)->RangeMultiplier(2)->Range(8<<10, 8<<12);
 
 
 static void BM_shiverSortOnRandomInt(benchmark::State& state){
@@ -133,7 +161,7 @@ static void BM_shiverSortOnRandomInt(benchmark::State& state){
     }
 }
 
-BENCHMARK(BM_shiverSortOnRandomInt)->RangeMultiplier(2)->Range(8<<8, 8<<12);
+//BENCHMARK(BM_shiverSortOnRandomInt)->RangeMultiplier(2)->Range(8<<8, 8<<12);
 
 
 static void BM_adaptativeShiverSortOnRandomInt(benchmark::State& state){
@@ -152,7 +180,7 @@ static void BM_adaptativeShiverSortOnRandomInt(benchmark::State& state){
     }
 }
 
-BENCHMARK(BM_adaptativeShiverSortOnRandomInt)->RangeMultiplier(2)->Range(8<<8, 8<<12);
+BENCHMARK(BM_adaptativeShiverSortOnRandomInt)->RangeMultiplier(2)->Range(8<<10, 8<<12);
 
 
 static void BM_TimSortOnRandomInt(benchmark::State& state){
@@ -171,7 +199,7 @@ static void BM_TimSortOnRandomInt(benchmark::State& state){
     }
 }
 
-BENCHMARK(BM_TimSortOnRandomInt)->RangeMultiplier(2)->Range(8<<8, 8<<12);
+BENCHMARK(BM_TimSortOnRandomInt)->RangeMultiplier(2)->Range(8<<10, 8<<12);
 BENCHMARK_MAIN();
 
 #endif // MY_BENCH_EXEC
