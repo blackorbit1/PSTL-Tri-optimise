@@ -6,6 +6,7 @@
 #define SORT_RUNFINDER_H
 
 #include <vector>
+#include <algorithm>
 #include "StackOfRun.h"
 
 template <class T>
