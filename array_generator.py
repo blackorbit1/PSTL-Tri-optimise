@@ -1,6 +1,7 @@
 # -*- coding: latin-1 -*-
 import math
 import random, json, os
+import entropy_utils
 
 configuration = json.load(open('array_generator_config.json'))
 
@@ -18,7 +19,9 @@ nb_runs_depart = configuration["nb_runs_depart"]
 nb_runs_fin = configuration["nb_runs_fin"]
 nb_runs = nb_runs_depart
 
-anthropie = configuration["anthropie"]
+delta = configuration["delta_separation_runs"]
+
+entropie_demandee = configuration["entropy"]
 
 borne_sup = configuration["borne_sup"]
 borne_inf = configuration["borne_inf"]
@@ -41,6 +44,7 @@ for num_liste in range(nb_listes):
     nb_runs = int(nb_runs + (nb_runs_fin - nb_runs_depart)/nb_listes)
 
     liste = [None]*taille_liste
+    entropie = 0.0
 
     if methode == "alea":
         for i in range(len(liste)):
@@ -68,6 +72,9 @@ for num_liste in range(nb_listes):
             increment = increment + taille_runs
             run_decroissant = False
 
+        # calcul de l'entropie de la liste
+        entropie = entropy_utils.get_entropy(taille_runs, taille_liste)
+
 
     elif methode == "parti_tri_run_non_constant":
 
@@ -84,8 +91,11 @@ for num_liste in range(nb_listes):
             else:
                 liste[liste_separation_runs[i]:liste_separation_runs[i+1]] = sub_list
 
+        # calcul de l'entropie de la liste
+        entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
 
-    elif methode == "parti_tri_entropie":
+
+    elif methode == "parti_tri_delta":
         # "séparation" = bornes des runs
 
         # On crée une liste de séparation parfaite qui nous servira de référence pour choisir l'anthropie
@@ -95,8 +105,8 @@ for num_liste in range(nb_listes):
         # On met les deux extremums de la liste des séparations
         liste_separation_runs = [0, taille_liste]
         for i in range(1, nb_runs - 0 if nb_runs > 0 else 0):
-            separation_min = liste_separation_runs_parfaite[i] - (liste_separation_runs_parfaite[i] * anthropie / 100) #0 if (i - 1) < 0 else liste_separation_runs_parfaite[i-1]
-            separation_max = liste_separation_runs_parfaite[i] + ((liste_separation_runs_parfaite[-1] - liste_separation_runs_parfaite[i]) * anthropie / 100)
+            separation_min = liste_separation_runs_parfaite[i] - (liste_separation_runs_parfaite[i] * delta / 100) #0 if (i - 1) < 0 else liste_separation_runs_parfaite[i-1]
+            separation_max = liste_separation_runs_parfaite[i] + ((liste_separation_runs_parfaite[-1] - liste_separation_runs_parfaite[i]) * delta / 100)
             liste_separation_runs.append(random.randint(int(separation_min), int(separation_max)))
 
         # On tri les séparations dans le cas où l'anthropie ait permis des cheuvauchements de bornes
@@ -108,6 +118,7 @@ for num_liste in range(nb_listes):
                 liste[j] = random.randint(borne_inf, borne_sup)
             liste[liste_separation_runs[i]:liste_separation_runs[i+1]] = sorted(liste[liste_separation_runs[i]:liste_separation_runs[i+1]])
 
+        """
         # Calcul de l'entropie
         entropie_reel = 0
         for i in range(len(liste_separation_runs) - 1):
@@ -116,8 +127,12 @@ for num_liste in range(nb_listes):
                 entropie_reel -= xi * math.log2(xi)
 
         print("entropie de la liste n°" + str(num_liste) + " : " + str(entropie_reel) + "\n")
+        """
+        # calcul de l'entropie de la liste
+        entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
 
-    elif methode == "parti_tri_entropie_runs_unsorted":
+
+    elif methode == "parti_tri_delta_runs_unsorted":
         # "séparation" = bornes des runs
 
         # On crée une liste de séparation parfaite qui nous servira de référence pour choisir l'anthropie
@@ -129,12 +144,12 @@ for num_liste in range(nb_listes):
         # On met les deux extremums de la liste des séparations
         liste_separation_runs = [0, taille_liste]
         for i in range(1, nb_runs - 0 if nb_runs > 0 else 0):
-            separation_min = liste_separation_runs_parfaite[i] - (liste_separation_runs_parfaite[i] * anthropie / 100) #0 if (i - 1) < 0 else liste_separation_runs_parfaite[i-1]
-            separation_max = liste_separation_runs_parfaite[i] + ((liste_separation_runs_parfaite[-1] - liste_separation_runs_parfaite[i]) * anthropie / 100)
+            separation_min = liste_separation_runs_parfaite[i] - (liste_separation_runs_parfaite[i] * delta / 100) #0 if (i - 1) < 0 else liste_separation_runs_parfaite[i-1]
+            separation_max = liste_separation_runs_parfaite[i] + ((liste_separation_runs_parfaite[-1] - liste_separation_runs_parfaite[i]) * delta / 100)
             liste_separation_runs.append(random.randint(int(separation_min), int(separation_max)))
 
 
-        # On tri les séparations dans le cas où l'anthropie ait permis des cheuvauchements de bornes
+        # On tri les séparations dans le cas où le delta ait permis des cheuvauchements de bornes
         liste_separation_runs.sort()
 
         nb_runs_non_tries = 5 # a supp
@@ -153,6 +168,25 @@ for num_liste in range(nb_listes):
             if i not in runs_a_ne_pas_trier:
                 liste[liste_separation_runs[i]:liste_separation_runs[i+1]] = sorted(liste[liste_separation_runs[i]:liste_separation_runs[i+1]])
 
+        # calcul de l'entropie de la liste
+        entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
+
+    elif methode == "nb_runs_given_by_entropy":
+        run_size_needed = entropy_utils.get_runs_size_from_entropy(entropie_demandee, taille_liste)
+        liste_separation_runs = [i for i in range(0, (taille_liste), run_size_needed)]
+        liste_separation_runs[-1] = taille_liste
+
+        # On crée la liste finale en remplissant les runs
+        for i in range(len(liste_separation_runs) - 1):
+            for j in range(liste_separation_runs[i], liste_separation_runs[i+1]):
+                liste[j] = random.randint(borne_inf, borne_sup)
+            liste[liste_separation_runs[i]:liste_separation_runs[i+1]] = sorted(liste[liste_separation_runs[i]:liste_separation_runs[i+1]])
+
+        # calcul de l'entropie de la liste
+        entropie = entropy_utils.get_entropy(run_size_needed, taille_liste)
+
+
+
     else:
         print("Aucune méthode valide n'a été précisé")
         exit()
@@ -165,7 +199,15 @@ for num_liste in range(nb_listes):
     for element in liste:
         fichier_liste.write(str(element) + " ")
     # On écrit le type de liste et le nombre d'elements qu'il y a dedans
-    fichier_liste.write("\n" + methode + str(num_liste) + " " + str(taille_liste))
+    #fichier_liste.write("\n" + methode + str(num_liste) + " " + str(taille_liste))
+    fichier_liste.write("""
+{
+    "type_liste": "%s",
+    "id_liste": %d,
+    "taille_liste": %d,
+    "entropie": %f
+}
+    """ % (methode, num_liste, taille_liste, entropie))
 
     fichier_liste.close()
 
