@@ -4,6 +4,9 @@ Test et implémentation de plusieurs algorithmes de tri en vue de trouver un
 successeur au TimSort
 
 
+Pour lancer toute la chaine de tests, executer `whole_execution.bash`
+
+
 ## Variables de fonctions pour array_generator_config.json
 
 - t = taille de la liste précédente (taille début pour la première)
