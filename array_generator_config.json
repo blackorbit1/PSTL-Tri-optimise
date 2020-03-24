@@ -1,4 +1,6 @@
 {
+    "destination_folder": "tab",
+
     "methode_tri" : "parti_tri_entropie",
     "_methodes possibles" : "alea, parti_tri_runs_alea, parti_tri_run_constant_croiss_lineaires",
 

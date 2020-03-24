@@ -20,22 +20,14 @@
 namespace po = boost::program_options;
 
 int main(int argc, char* argv[]) {
-    std::string file;
-    int idone;
-    std::string done;
+    std::string s_file;
+    std::string s_file_out;
 
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help,h", "produce help message")
-            ("file,f", po::value<std::string>(&file), "file with array to bench")
-            ("benchmark_out_format", po::value<std::string>(&done),
-             "type of output file <csv|json|console> (default: console)")
-            ("benchmark_out", po::value<std::string>(&done),
-             "name of output file")
-            ("benchmark_repetitions", po::value<int>(&idone),
-             "number of repetitions of the benchmark (default: 1)")
-            ("benchmark_fun",
-             "bench few fonction")
+            ("file_in,f", po::value<std::string>(&s_file), "file with array to bench")
+            ("file_out,f", po::value<std::string>(&s_file_out), "file with array to bench")
             ("sandbox",
              "sandox");
 
@@ -52,18 +44,17 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    if (vm.count("benchmark_fun")) {
-
-        return 0;
-    }
-
-    if (vm.count("file")) {
-
+    if (vm.count("file_in") && vm.count("file_out")) {
+        std::ifstream infile(s_file);
+        std::filebuf fb;
+        fb.open (s_file_out,std::ios::out);
+        std::ostream os(&fb);
+        launchBench(infile, os);
+        fb.close();
         return 0;
     }
     if (vm.count("sandbox")) {
-        std::vector v = {1, 84,58,41,2584,1,47,51,584,1,47,9,5478,8};
-        std::ifstream infile("../files/test.tab");
+        std::ifstream infile("./files/test.tab");
 
         launchBench(infile, std::cout);
 

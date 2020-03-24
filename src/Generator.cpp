@@ -4,6 +4,7 @@
 
 #include <random>
 #include <algorithm>
+#include <functional>
 #include "../include/Generator.h"
 
 

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <iterator>
 #include <chrono>
+#include <array>
 
 class TimWrap{
 public:
