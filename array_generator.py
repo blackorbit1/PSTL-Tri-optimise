@@ -19,7 +19,7 @@ nb_runs_depart = configuration["nb_runs_depart"]
 nb_runs_fin = configuration["nb_runs_fin"]
 nb_runs = nb_runs_depart
 
-delta = configuration["delta_separation_runs"]
+delta = configuration["delta_separation_runs"] * 100
 
 entropie_demandee = configuration["entropy"]
 
@@ -200,14 +200,17 @@ for num_liste in range(nb_listes):
         fichier_liste.write(str(element) + " ")
     # On écrit le type de liste et le nombre d'elements qu'il y a dedans
     #fichier_liste.write("\n" + methode + str(num_liste) + " " + str(taille_liste))
-    fichier_liste.write("""
-{
-    "type_liste": "%s",
-    "id_liste": %d,
-    "taille_liste": %d,
-    "entropie": %f
-}
-    """ % (methode, num_liste, taille_liste, entropie))
+    #fichier_liste.write("""
+        #{
+        #    "type_liste": "%s",
+        #    "id_liste": %d,
+        #    "taille_liste": %d,
+    #    "entropie": %f
+    #}
+    #""" % (methode, num_liste, taille_liste, entropie))
+
+    fichier_liste.write("\n" + methode + str(num_liste) + " / " + str(taille_liste) + " / " + str(entropie))
+
 
     fichier_liste.close()
 

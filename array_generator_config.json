@@ -19,7 +19,7 @@
     "borne_sup" : 200000,
     "borne_inf" : 0,
 
-    "delta_separation_runs" : 50,
+    "delta_separation_runs" : 0.5,
     "_delta_separation_runsinfos" : "en %, uniquement pour parti_tri_delta",
 
     "entropy" : 0.2,
