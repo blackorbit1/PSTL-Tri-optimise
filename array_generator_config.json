@@ -22,7 +22,7 @@
     "delta_separation_runs" : 0.5,
     "_delta_separation_runsinfos" : "en %, uniquement pour parti_tri_delta",
 
-    "entropy" : 0.2,
+    "entropy" : 0,
     "_entropy_runsinfos" : "en %, uniquement pour nb_runs_given_by_entropy"
 }
 

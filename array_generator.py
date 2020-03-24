@@ -209,7 +209,7 @@ for num_liste in range(nb_listes):
     #}
     #""" % (methode, num_liste, taille_liste, entropie))
 
-    fichier_liste.write("\n" + methode + str(num_liste) + " / " + str(taille_liste) + " / " + str(entropie))
+    fichier_liste.write("\n" + methode + "." + str(num_liste) + " / " + str(taille_liste) + " / " + str(entropie))
 
 
     fichier_liste.close()
