@@ -2,7 +2,6 @@ from matplotlib import pyplot
 from math import log
 import random, json, os
 
-configuration = json.load(open('data.json'))
 
 
 liste_benchs = dict()
@@ -21,8 +20,11 @@ for path in open('paths'):
             "time" : resultat_test["time"],
             "entropie" : entropie
         })
-
-
+"""
+fig, host = pyplot.subplots()
+par1 = host.twinx()
+par2 = host.twinx()
+"""
 
 for key in liste_benchs:
     pyplot.plot([i["taille_liste"] for i in liste_benchs[key]], [(int(i["time"])/1000000) for i in liste_benchs[key]], marker='o', linestyle="-", label=key)
