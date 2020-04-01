@@ -28,8 +28,7 @@ int main(int argc, char* argv[]) {
             ("help,h", "produce help message")
             ("file_in,f", po::value<std::string>(&s_file), "file with array to bench")
             ("file_out,f", po::value<std::string>(&s_file_out), "file with array to bench")
-            ("sandbox",
-             "sandox");
+            ("sandbox","sandox");
 
     po::variables_map vm;
     try {
@@ -54,9 +53,23 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     if (vm.count("sandbox")) {
-        std::ifstream infile("./files/test.tab");
+        auto vect = std::vector<int>(50);
+        std::random_device rd;
+        std::mt19937 mt(rd());
+        std::uniform_int_distribution<> dis(0, 100);
+        std::generate(vect.begin(), vect.end(), std::bind(dis, std::ref(mt)));
 
-        launchBench(infile, std::cout);
+        for(auto i: vect){
+            std::cout << i << ' ';
+        }
+        std::cout << '\n';
+
+        hybridMergeSort(vect.begin(), vect.end());
+
+        for(auto i: vect){
+            std::cout << i << ' ';
+        }
+        std::cout << '\n';
 
         return 0;
     }

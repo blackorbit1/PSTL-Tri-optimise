@@ -67,4 +67,66 @@ void timSort(std::vector<T>& array){
 
     sort(array, runf, merge, mergeRules);
 }
+
+template<class Iter>
+void insertSort(Iter begin, Iter end){
+    for (auto i = begin; i != end; ++i) {
+        std::rotate(std::upper_bound(begin, i, *i), i, i+1);
+    }
+}
+
+template<class Iter>
+void mergeSort(Iter begin, Iter end){
+    int d = std::distance(begin, end);
+    if (d < 2){
+        return;
+    }
+
+    Iter nn = std::next(begin, d/2);
+
+    mergeSort(begin, nn);
+    mergeSort(nn, end);
+    std::inplace_merge(begin, nn, end);
+}
+
+template<class Iter>
+void mergeSort(Iter begin, Iter end, int d){
+    if (d < 2){
+        return;
+    }
+    Iter nn = std::next(begin, d/2);
+
+    mergeSort(begin, nn);
+    mergeSort(nn, end);
+    std::inplace_merge(begin, nn, end);
+}
+
+template<class Iter>
+void hybridMergeSort(Iter begin, Iter end){
+    int d = std::distance(begin, end);
+    if (d < 32){
+        insertSort(begin, end);
+        return;
+    }
+    Iter nn = std::next(begin, d/2);
+
+    hybridMergeSort(begin, nn);
+    hybridMergeSort(nn, end);
+    std::inplace_merge(begin, nn, end);
+}
+
+template<class Iter>
+void hybridMergeSort(Iter begin, Iter end, int d){
+
+    if (d < 32){
+        insertSort(begin, end);
+        return;
+    }
+    Iter nn = std::next(begin, d/2);
+
+    hybridMergeSort(begin, nn);
+    hybridMergeSort(nn, end);
+    std::inplace_merge(begin, nn, end);
+}
+
 #endif //SORT_SORT_H
