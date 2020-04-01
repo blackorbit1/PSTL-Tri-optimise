@@ -73,7 +73,7 @@ for num_liste in range(nb_listes):
             run_decroissant = False
 
         # calcul de l'entropie de la liste
-        entropie = entropy_utils.get_entropy(taille_runs, taille_liste)
+        entropie = entropy_utils.get_entropy(taille_runs)
 
 
     elif methode == "parti_tri_run_non_constant":
@@ -183,7 +183,7 @@ for num_liste in range(nb_listes):
             liste[liste_separation_runs[i]:liste_separation_runs[i+1]] = sorted(liste[liste_separation_runs[i]:liste_separation_runs[i+1]])
 
         # calcul de l'entropie de la liste
-        entropie = entropy_utils.get_entropy(run_size_needed, taille_liste)
+        entropie = entropy_utils.get_entropy(run_size_needed)
 
 
 
