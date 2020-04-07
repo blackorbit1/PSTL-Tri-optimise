@@ -57,7 +57,6 @@ template<class MergeStrat, class T>
 class AdaptativeShiverSort {
 public:
     bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat &merge) {
-        const int c = 2;
         int nbOfRun = stack.nbOfRun();
         // on ne peut appliquer les regles que s'il y a au moins 2 runs dans la pile
         if(stack.nbOfRun() <= 1){
@@ -68,33 +67,35 @@ public:
 
         stack.popRun(s1, s2); // r1
         stack.popRun(s3, s4); // r2
-        int l1 = ((s2-s1)/c);
-        int l2 = ((s4-s3)/c);
+        int l1 = (s2-s1);
+        int l2 = (s4-s3);
 
         if(nbOfRun >= 3) {
             int s5, s6;
             stack.popRun(s5, s6); // r3
-            int l3 =  ((s6-s5)/c);
-
-            if (msb_geq(l1, l3)){ // Case #1
-                merge(array, s3, s5, s6);
-                stack.push(s3);
-                stack.push(s1);
-                return true;
-            } else if (msb_geq(l2, l3)){ // Case #2
+            int l3 =  (s6-s5);
+//            if (msb_geq(l1, l3)){ // Case #1
+            if((((~(l1 | l2)) & l3) > (l1 | l2)) {
                 merge(array, s3, s5, s6);
                 stack.push(s3);
                 stack.push(s1);
                 return true;
             }
+
+//            else if (msb_geq(l2, l3)){ // Case #2
+//                merge(array, s3, s5, s6);
+//                stack.push(s3);
+//                stack.push(s1);
+//                return true;
+//            }
             stack.push(s5);
         }
 
-        if (msb_geq(l1, l2)){ // Case #4
-            merge(array, s1, s3, s4);
-            stack.push(s1);
-            return true;
-        }
+//        if (msb_geq(l1, l2)){ // Case #4
+//            merge(array, s1, s3, s4);
+//            stack.push(s1);
+//            return true;
+//        }
         stack.push(s3);
         stack.push(s1);
         return false;

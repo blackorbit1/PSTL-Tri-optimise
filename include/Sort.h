@@ -89,17 +89,6 @@ void mergeSort(Iter begin, Iter end){
     std::inplace_merge(begin, nn, end);
 }
 
-template<class Iter>
-void mergeSort(Iter begin, Iter end, int d){
-    if (d < 2){
-        return;
-    }
-    Iter nn = std::next(begin, d/2);
-
-    mergeSort(begin, nn);
-    mergeSort(nn, end);
-    std::inplace_merge(begin, nn, end);
-}
 
 template<class Iter>
 void hybridMergeSort(Iter begin, Iter end){
@@ -115,18 +104,5 @@ void hybridMergeSort(Iter begin, Iter end){
     std::inplace_merge(begin, nn, end);
 }
 
-template<class Iter>
-void hybridMergeSort(Iter begin, Iter end, int d){
-
-    if (d < 32){
-        insertSort(begin, end);
-        return;
-    }
-    Iter nn = std::next(begin, d/2);
-
-    hybridMergeSort(begin, nn);
-    hybridMergeSort(nn, end);
-    std::inplace_merge(begin, nn, end);
-}
 
 #endif //SORT_SORT_H
