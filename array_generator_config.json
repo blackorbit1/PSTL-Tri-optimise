@@ -6,12 +6,14 @@
 
     "nb_listes" : 10,
     "taille" : "td + n*(tf - td)/(nb - 1)",
-    "nb_fois_repete": 2,
+    "nb_repetitions": 2,
+
     "taille_depart" : 100,
     "taille_fin": 100000,
     "pas_logarithmique": false,
 
     "run_size" : "taille / 6",
+    "nb_runs" : "nbr + (nbrf - nbrd)/nb",
     "nb_runs_depart" : 30,
     "nb_runs_fin" : 30 ,
     "contiens_runs_decroissants" : true,
