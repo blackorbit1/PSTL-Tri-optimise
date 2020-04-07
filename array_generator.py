@@ -88,10 +88,10 @@ for n in range(nb_listes):
                 run_decroissant = False
 
             # calcul de l'entropie de la liste
-            entropie = entropy_utils.get_entropy(taille_runs)
+            entropie = entropy_utils.get_entropy_from_nb_runs(taille_liste // taille_runs)
 
 
-        elif methode == "parti_tri_run_non_constant":
+        elif methode == "parti_tri_run_non_constant": # l'entropie est à peu près toujours la même
 
             liste_separation_runs = [0, taille_liste]
             for _ in range(nb_runs - 1 if nb_runs > 0 else 0):
@@ -108,6 +108,24 @@ for n in range(nb_listes):
 
             # calcul de l'entropie de la liste
             entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
+
+        elif methode == "parti_tri_tres_alea": # l'entropie est à peu près toujours la même
+            for i in range(len(liste)):
+                liste[i] = random.randint(borne_inf, borne_sup)
+
+            taille_max_run = random.randint(0, taille_liste//2)
+            nb_runs = random.randint(0, taille_liste//taille_max_run)
+
+            for i in range(nb_runs):
+                # configuration du run
+                taille_run = random.randint(0, taille_max_run)
+                debut_run = random.randint(0, taille_liste - taille_run)
+                # ajout du run dans la liste
+                sub_list = sorted(liste[debut_run:debut_run+taille_run])
+                liste[debut_run:debut_run+taille_run] = sub_list
+
+            # calcul de l'entropie de la liste
+            entropie = entropy_utils.get_entropy(liste)
 
 
         elif methode == "parti_tri_delta":
@@ -198,7 +216,7 @@ for n in range(nb_listes):
                 liste[liste_separation_runs[i]:liste_separation_runs[i+1]] = sorted(liste[liste_separation_runs[i]:liste_separation_runs[i+1]])
 
             # calcul de l'entropie de la liste
-            entropie = entropy_utils.get_entropy(run_size_needed)
+            entropie = entropy_utils.get_entropy_from_nb_runs(taille_liste // run_size_needed)
 
 
 

@@ -1,15 +1,15 @@
 {
     "destination_folder": "tab",
 
-    "methode_tri" : "nb_runs_given_by_entropy",
+    "methode_tri" : "parti_tri_tres_alea",
     "_methodes possibles" : "alea, parti_tri_run_non_constant, parti_tri_run_constant_croiss_lineaires, parti_tri_delta_runs_unsorted",
 
     "nb_listes" : 1,
-    "taille" : "100000",
-    "nb_repetitions": 30,
+    "taille" : "10000",
+    "nb_repetitions": 100,
 
     "taille_depart" : 100,
-    "taille_fin": 100000,
+    "taille_fin": 10000,
     "pas_logarithmique": false,
 
     "run_size" : "taille / 6  --- not used",
