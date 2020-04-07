@@ -7,16 +7,25 @@ successeur au TimSort
 Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 
 
-## Variables de fonctions pour array_generator_config.json
+## Utilisation de array_generator_config.json
 
-**taille liste :**
+**Méthodes de génération de listes :**
+- alea *(= entropie max)*
+- entropie_alea
+- run_constant_croiss_lineaires 
+- run_alea *(doit quand meme donner un nombre de runs)*
+- run_delta 
+- run_delta_with_unsorted *(certains runs sont non triés)*
+- nb_runs_given_by_entropy *(tous les runs ont la meme taille)*
+
+**Variables de taille liste :**
 - t = taille de la liste précédente (taille début pour la première)
 - tf = taille_fin
 - td = taille_départ
 - nb = nombre total de listes
 - n = numéro de liste
 
-**nombre de runs :**
+**Variables de nombre de runs :**
 - *toutes les variables de taille de liste*
 - nbr = nombre de runs du precedent calcul (nb_runs_depart pour le premier)
 - nbrf = nb_runs_fin
