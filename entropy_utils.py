@@ -1,7 +1,4 @@
-from matplotlib import pyplot
-from math import log
 import math
-import random, json, os, time
 
 """
 def get_entropy(run_size, list_size):

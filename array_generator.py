@@ -66,7 +66,7 @@ for n in range(nb_listes):
                 liste[i] = random.randint(borne_inf, borne_sup)
 
 
-        elif methode == "parti_tri_run_constant_croiss_lineaires":
+        elif methode == "run_constant_croiss_lineaires":
 
             taille_runs = taille_liste / nb_runs
             increment = 0
@@ -91,7 +91,7 @@ for n in range(nb_listes):
             entropie = entropy_utils.get_entropy_from_nb_runs(taille_liste // taille_runs)
 
 
-        elif methode == "parti_tri_run_non_constant": # l'entropie est à peu près toujours la même
+        elif methode == "run_alea": # l'entropie est à peu près toujours la même
 
             liste_separation_runs = [0, taille_liste]
             for _ in range(nb_runs - 1 if nb_runs > 0 else 0):
@@ -109,7 +109,7 @@ for n in range(nb_listes):
             # calcul de l'entropie de la liste
             entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
 
-        elif methode == "parti_tri_tres_alea": # l'entropie est à peu près toujours la même
+        elif methode == "entropie_alea": # l'entropie est à peu près toujours la même
             for i in range(len(liste)):
                 liste[i] = random.randint(borne_inf, borne_sup)
 
@@ -128,7 +128,7 @@ for n in range(nb_listes):
             entropie = entropy_utils.get_entropy(liste)
 
 
-        elif methode == "parti_tri_delta":
+        elif methode == "run_delta":
             # "séparation" = bornes des runs
 
             # On crée une liste de séparation parfaite qui nous servira de référence pour choisir l'anthropie
@@ -165,7 +165,7 @@ for n in range(nb_listes):
             entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
 
 
-        elif methode == "parti_tri_delta_runs_unsorted":
+        elif methode == "run_delta_with_unsorted":
             # "séparation" = bornes des runs
 
             # On crée une liste de séparation parfaite qui nous servira de référence pour choisir l'anthropie

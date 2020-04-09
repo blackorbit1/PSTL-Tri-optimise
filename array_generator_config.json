@@ -1,8 +1,7 @@
 {
     "destination_folder": "tab",
 
-    "methode_tri" : "parti_tri_tres_alea",
-    "_methodes possibles" : "alea, parti_tri_run_non_constant, parti_tri_run_constant_croiss_lineaires, parti_tri_delta_runs_unsorted",
+    "methode_tri" : "entropie_alea",
 
     "nb_listes" : 1,
     "taille" : "10000",
