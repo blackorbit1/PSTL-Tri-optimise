@@ -59,8 +59,11 @@ public:
 
     void launchBench(){
         std::vector<int> toSort(baseArray.size());
+
         for(int i = 0; i < 3; i++){
             std::copy(baseArray.begin(), baseArray.end(), toSort.begin());
+//            std::cout << baseArray.size() << '\n';
+//            std::cout << toSort.size() << '\n';
             sort(toSort);
             std::cerr << "Loading in cache\n";
         }
@@ -124,9 +127,9 @@ void launchBench(std::istream& infile, std::ostream& out){
     std::vector<BenchMark<IntroWrap>> arrayIntro;
     std::vector<BenchMark<MergeSortWrap>> arrayMerge;
     std::vector<BenchMark<HybrMergeSortWrap>> arrayMergeIns;
-
     while(std::getline(infile, line) && std::getline(infile, meta)){
         split(line, vect);
+
 
         arrayTim.push_back(BenchMark<TimWrap>(vect, "TimSort", (char*)meta.c_str()));
         arrayASS.push_back(BenchMark<AdaptiveShiverSortWrap>(vect, "AdaptativeShiverSort", (char*)meta.c_str()));

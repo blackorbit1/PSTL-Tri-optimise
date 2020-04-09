@@ -74,28 +74,25 @@ public:
             int s5, s6;
             stack.popRun(s5, s6); // r3
             int l3 =  (s6-s5);
-//            if (msb_geq(l1, l3)){ // Case #1
-            if((((~(l1 | l2)) & l3) > (l1 | l2)) {
+            if (msb_geq(l1, l3)){ // Case #1
+                merge(array, s3, s5, s6);
+                stack.push(s3);
+                stack.push(s1);
+                return true;
+            } else if (msb_geq(l2, l3)){ // Case #2
                 merge(array, s3, s5, s6);
                 stack.push(s3);
                 stack.push(s1);
                 return true;
             }
-
-//            else if (msb_geq(l2, l3)){ // Case #2
-//                merge(array, s3, s5, s6);
-//                stack.push(s3);
-//                stack.push(s1);
-//                return true;
-//            }
             stack.push(s5);
         }
 
-//        if (msb_geq(l1, l2)){ // Case #4
-//            merge(array, s1, s3, s4);
-//            stack.push(s1);
-//            return true;
-//        }
+        if (msb_geq(l1, l2)){ // Case #4
+            merge(array, s1, s3, s4);
+            stack.push(s1);
+            return true;
+        }
         stack.push(s3);
         stack.push(s1);
         return false;

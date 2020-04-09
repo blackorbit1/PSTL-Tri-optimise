@@ -23,7 +23,6 @@ void sort(std::vector<T>& array, RunFinder& runF, MergeStrat& merge, Rules& rule
             ; //nothing
     }
 
-
     while (stack.nbOfRun() > 1){
         int s1, s2, s3, s4;
         stack.popRun(s1, s2);

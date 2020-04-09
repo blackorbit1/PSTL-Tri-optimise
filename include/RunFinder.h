@@ -10,7 +10,7 @@
 #include "StackOfRun.h"
 
 template <class T>
-class runFinder {
+class runFinder{
 public:
     void operator()(std::vector<T> &array, StackOfRun &run) {
 
@@ -68,8 +68,8 @@ public:
                     if (i > array.size())
                         break;
                 }
-
-                run.push(i + 1);
+                if(i != array.size())
+                    run.push(i + 1);
                 if (i < array.size() - 2)
                     increasing = array[i + 1] <= array[i + 2];
             }

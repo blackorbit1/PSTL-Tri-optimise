@@ -26,8 +26,8 @@ int main(int argc, char* argv[]) {
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help,h", "produce help message")
-            ("file_in,f", po::value<std::string>(&s_file), "file with array to bench")
-            ("file_out,f", po::value<std::string>(&s_file_out), "file with array to bench")
+            ("file_in,i", po::value<std::string>(&s_file), "file with array to bench")
+            ("file_out,o", po::value<std::string>(&s_file_out), "file with array to bench")
             ("sandbox","sandox");
 
     po::variables_map vm;
@@ -53,23 +53,13 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     if (vm.count("sandbox")) {
-        auto vect = std::vector<int>(50);
-        std::random_device rd;
-        std::mt19937 mt(rd());
-        std::uniform_int_distribution<> dis(0, 100);
-        std::generate(vect.begin(), vect.end(), std::bind(dis, std::ref(mt)));
-
-        for(auto i: vect){
-            std::cout << i << ' ';
-        }
-        std::cout << '\n';
-
-        hybridMergeSort(vect.begin(), vect.end());
-
-        for(auto i: vect){
-            std::cout << i << ' ';
-        }
-        std::cout << '\n';
+        auto vect = std::vector<int>();
+        std::string line;
+        std::ifstream infile("./tab/liste32");
+        std::getline(infile, line);
+        split(line, vect);
+        std::cout << "in timSort\n";
+        timSort(vect);
 
         return 0;
     }
