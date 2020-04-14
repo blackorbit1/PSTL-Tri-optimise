@@ -24,5 +24,5 @@ int log_2 (unsigned int value) {
 }
 
 int msb_geq(int l, int r){
-    return !((l < r) && (l < l^r));
+    return l >= ((~l) & r);
 }
