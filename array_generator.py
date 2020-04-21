@@ -74,6 +74,9 @@ for n in range(nb_listes):
             for i in range(len(liste)):
                 liste[i] = random.randint(borne_inf, borne_sup)
 
+            # calcul de l'entropie de la liste
+            entropie = entropy_utils.get_entropy(liste)
+
 
         elif methode == "run_constant_croiss_lineaires":
 
@@ -215,8 +218,13 @@ for n in range(nb_listes):
 
         elif methode == "nb_runs_given_by_entropy":
             run_size_needed = entropy_utils.get_runs_size_from_entropy(entropie_demandee, taille_liste)
-            liste_separation_runs = [i for i in range(0, (taille_liste), run_size_needed)]
-            liste_separation_runs[-1] = taille_liste
+            print("run_size_needed : ", run_size_needed)
+            liste_separation_runs = [i for i in range(run_size_needed, (taille_liste), run_size_needed)]
+            liste_separation_runs.append(0)
+            liste_separation_runs.append(taille_liste)
+            liste_separation_runs.sort()
+            #print("liste_separation_runs : ", liste_separation_runs)
+
 
             # On crée la liste finale en remplissant les runs
             for i in range(len(liste_separation_runs) - 1):
