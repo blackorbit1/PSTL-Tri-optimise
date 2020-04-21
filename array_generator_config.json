@@ -1,11 +1,11 @@
 {
     "destination_folder": "tab",
 
-    "methode_tri" : "entropie_alea",
+    "methode_tri" : "nb_runs_given_by_entropy",
 
-    "nb_listes" : 1,
+    "nb_listes" : 10,
     "taille" : "10000",
-    "nb_repetitions": 100,
+    "nb_repetitions": 30,
 
     "taille_depart" : 100,
     "taille_fin": 10000,
@@ -23,7 +23,7 @@
     "delta_separation_runs" : 0.5,
     "_delta_separation_runsinfos" : "en %, uniquement pour parti_tri_delta",
 
-    "entropy" : 0.5,
+    "entropy" : "n / nb",
     "_entropy_runsinfos" : "en %, uniquement pour nb_runs_given_by_entropy"
 }
 
