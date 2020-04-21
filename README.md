@@ -31,6 +31,10 @@ Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 - nbrf = nb_runs_fin
 - nbrd = nb_runs_depart
 
+**Variable entropie :**
+- la = entropie de l'itération précédente (0 à la 1ère itération)
+
+
 ## Utilisation de generateur_graphique.py
 
 ```
