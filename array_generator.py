@@ -23,7 +23,7 @@ nb_runs = nb_runs_depart
 
 delta = configuration["delta_separation_runs"] * 100
 
-entropie_demandee = configuration["entropy"]
+entropie_demandee_formule = configuration["entropy"] if configuration["entropy"] != "" else "0"
 
 borne_sup = configuration["borne_sup"]
 borne_inf = configuration["borne_inf"]
@@ -34,6 +34,7 @@ decroissant = bool(configuration["contiens_runs_decroissants"])
 fichier_path = open("paths","w+")
 
 num_liste = 0
+entropie_demandee = 0
 
 for n in range(nb_listes):
     #taille_liste = int(taille_liste + (taille_fin - taille_depart)/nb_listes)
@@ -53,6 +54,14 @@ for n in range(nb_listes):
     nbrd = nb_runs_depart
 
     nb_runs = int(eval(nb_runs_formule))
+
+
+    # --- --- --- Calcul de l'entropie demandée --- --- --- #
+    la = entropie_demandee
+
+    entropie_demandee = float(eval(entropie_demandee_formule))
+
+
 
     #nb_runs = int(nb_runs + (nb_runs_fin - nb_runs_depart)/nb_listes)
 
