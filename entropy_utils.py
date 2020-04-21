@@ -71,14 +71,17 @@ def get_nb_runs_from_entropy(entropy, list_size):
     max_entropy = get_entropy_from_nb_runs(list_size)
     wanted_entropy = entropy * max_entropy
 
-    #return(int(pow(2, wanted_entropy)))
-
+    return(int(pow(2, wanted_entropy)))
+    """
     for nb_runs in range(1, list_size, 1):
         current_entropy = get_entropy_from_nb_runs(nb_runs)
         if (current_entropy >= wanted_entropy) or ((current_entropy - get_entropy_from_nb_runs((nb_runs + 1)))/2 < (current_entropy - wanted_entropy)) :
             return int(nb_runs)
 
     return 1
+    """
+
+
 
 
 
