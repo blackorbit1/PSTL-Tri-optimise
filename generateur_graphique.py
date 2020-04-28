@@ -91,10 +91,48 @@ for graphique, n in zip(sys.argv[1:], range(1, len(sys.argv))):
         pyplot.figure(graphique)
         #print(liste_benchs)
         liste_benchs_entropie = []
+
         """
+
         entro = 0
-        for key in liste_benchs:
+        next_entro = 0
+        iteration = 1
+        len_iteration = 0
+        boites = dict()
+        while entro != next_entro:
+            for key in liste_benchs:
+                liste_benchs_entropie = sorted(liste_benchs[key], key=lambda k: float(k['entropie']))
+                i = 0
+                for bench in liste_benchs_entropie:
+                    if bench["entropie"] > entro:
+                        next_entro = bench["entropie"]
+                        len_iteration = i-1
+                        break
+                    boites[key][entro][i] = bench["time"]
+
+                    i += 1
+
+
+
+        entro = 0
+        next_entro = 0
+        iteration = 0
+        boites = dict()
+        while entro != next_entro:
+            for key in liste_benchs:
+                liste_benchs_entropie = sorted(liste_benchs[key], key=lambda k: float(k['entropie']))
+                i = 0
+                for bench in liste_benchs_entropie:
+                    if bench["entropie"] > entro:
+                        next_entro = bench["entropie"]
+                        len_iteration = i-1
+                        break
+                    boites[key][entro][i] = bench["time"]
+
+                    i += 1
+                    
         """
+
 
 
         for key in liste_benchs:
