@@ -23,14 +23,15 @@ for path in open('paths'):
 
         for resultat_test in configuration["content"]:
             methode_liste, taille_liste, entropie = str(resultat_test["meta"]).split(" / ")
-            algo = resultat_test["algo"]
-            if algo not in liste_benchs: liste_benchs[algo] = []
-            liste_benchs[algo].append({
-                "methode_liste": methode_liste.split(".")[0].replace("_", " "),
-                "taille_liste": taille_liste,
-                "time": resultat_test["time"],
-                "entropie": entropie
-            })
+            if resultat_test["algo"] != "MergeSort": # <<<<< A SUPP
+                algo = resultat_test["algo"]
+                if algo not in liste_benchs: liste_benchs[algo] = []
+                liste_benchs[algo].append({
+                    "methode_liste": methode_liste.split(".")[0].replace("_", " "),
+                    "taille_liste": taille_liste,
+                    "time": resultat_test["time"],
+                    "entropie": entropie
+                })
     except Exception:
         pass
 """
@@ -38,6 +39,26 @@ fig, host = pyplot.subplots()
 par1 = host.twinx()
 par2 = host.twinx()
 """
+
+
+"""
+from matplotlib.pyplot import *
+import numpy
+
+
+def moy_e(M,T):
+    return 1.0/(numpy.exp(1.0/T)-1)-M/(numpy.exp(M/T)-1)
+
+def var_e(M,T):
+    return numpy.exp(1.0/T)/(numpy.exp(1.0/T)-1)**2-M**2*numpy.exp(-M/T)/(1-numpy.exp(-M/T))**2
+
+def ecart_e(M,T):
+    return numpy.sqrt(var_e(M,T))
+
+def Cv(M,T):
+    return var_e(M,T)/T**2
+"""
+
 
 ### --- --- --- Creations des graphiques demandés --- --- --- ###
 
@@ -63,15 +84,26 @@ for graphique, n in zip(sys.argv[1:], range(1, len(sys.argv))):
         """
 
 
-        pyplot.legend(loc="upper right")
+        pyplot.legend(loc="upper left")
         pyplot.savefig('result.png')
 
     if graphique == "temps/entropie":
         pyplot.figure(graphique)
         #print(liste_benchs)
         liste_benchs_entropie = []
+        """
+        entro = 0
+        for key in liste_benchs:
+        """
+
 
         for key in liste_benchs:
+
+
+            #pyplot.boxplot([[1, 2, 3, 4, 5, 13], [6, 7, 8, 10, 10, 11, 12], [1, 2, 3]])
+
+
+
             #print("\n", key, "\n")
             liste_benchs_entropie = sorted(liste_benchs[key], key=lambda k: float(k['entropie']))
             #liste_benchs_entropie = sorted(liste_benchs[key], key=itemgetter('entropie'))
@@ -84,7 +116,7 @@ for graphique, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
         pyplot.xticks(rotation=90, ha='right')
         # pyplot.axis.Axis.set_major_formatter(ticker.FormatStrFormatter('%0.4f'))
-        pyplot.legend(loc="upper right")
+        pyplot.legend(loc="upper left")
         pyplot.tight_layout()
         pyplot.savefig('result.png')
 
