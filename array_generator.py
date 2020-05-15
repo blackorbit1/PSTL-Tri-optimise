@@ -218,7 +218,7 @@ for n in range(nb_listes):
 
         elif methode == "nb_runs_given_by_entropy":
             run_size_needed = entropy_utils.get_runs_size_from_entropy(entropie_demandee, taille_liste)
-            print("run_size_needed : ", run_size_needed)
+            #print("run_size_needed : ", run_size_needed)
             liste_separation_runs = [i for i in range(run_size_needed, (taille_liste), run_size_needed)]
             liste_separation_runs.append(0)
             liste_separation_runs.append(taille_liste)
