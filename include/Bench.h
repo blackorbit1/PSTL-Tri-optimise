@@ -95,7 +95,7 @@ public:
     }
     template <class U>
     friend std::ostream& operator<<(std::ostream& out, const BenchMark<U>& b);
-    static const int K = 97;
+    static const int K = 33;
 
 private:
     std::vector<int> baseArray;
