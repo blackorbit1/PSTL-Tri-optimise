@@ -53,13 +53,13 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     if (vm.count("sandbox")) {
-        auto vect = std::vector<int>();
-        std::string line;
-        std::ifstream infile("./tab/liste32");
-        std::getline(infile, line);
-        split(line, vect);
-        std::cout << "in timSort\n";
-        timSort(vect);
+        auto vect = genRandomInt(9851851);
+
+        timSort(*vect);
+
+        std::is_sorted((*vect).begin(), (*vect).end());
+
+        std::cout << "sorted\n";
 
         return 0;
     }

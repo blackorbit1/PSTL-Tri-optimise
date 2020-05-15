@@ -1,4 +1,4 @@
-# -*- coding: latin-1 -*-
+# -*- coding: UTF-8 -*-
 import math
 import random, json, os
 import entropy_utils
@@ -44,7 +44,7 @@ for n in range(nb_listes):
     tf = taille_fin
     td = taille_depart
     nb = nb_listes
-    n = n # (nième configuration de liste) variable utilisé dans le fichier json de configuration
+    n = n # (niÃ¨me configuration de liste) variable utilisÃ© dans le fichier json de configuration
 
     taille_liste = int(eval(taille_formule))
 
@@ -56,7 +56,7 @@ for n in range(nb_listes):
     nb_runs = int(eval(nb_runs_formule))
 
 
-    # --- --- --- Calcul de l'entropie demandée --- --- --- #
+    # --- --- --- Calcul de l'entropie demandÃ©e --- --- --- #
     la = entropie_demandee
 
     entropie_demandee = float(eval(entropie_demandee_formule))
@@ -103,7 +103,7 @@ for n in range(nb_listes):
             entropie = entropy_utils.get_entropy_from_nb_runs(taille_liste // taille_runs)
 
 
-        elif methode == "run_alea": # l'entropie est à peu près toujours la même
+        elif methode == "run_alea": # l'entropie est Ã  peu prÃ¨s toujours la mÃªme
 
             liste_separation_runs = [0, taille_liste]
             for _ in range(nb_runs - 1 if nb_runs > 0 else 0):
@@ -121,7 +121,7 @@ for n in range(nb_listes):
             # calcul de l'entropie de la liste
             entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
 
-        elif methode == "entropie_alea": # l'entropie est à peu près toujours la même
+        elif methode == "entropie_alea": # l'entropie est Ã  peu prÃ¨s toujours la mÃªme
             for i in range(len(liste)):
                 liste[i] = random.randint(borne_inf, borne_sup)
 
@@ -141,23 +141,23 @@ for n in range(nb_listes):
 
 
         elif methode == "run_delta":
-            # "séparation" = bornes des runs
+            # "sÃ©paration" = bornes des runs
 
-            # On crée une liste de séparation parfaite qui nous servira de référence pour choisir l'anthropie
+            # On crÃ©e une liste de sÃ©paration parfaite qui nous servira de rÃ©fÃ©rence pour choisir l'anthropie
             liste_separation_runs_parfaite = [i for i in range(0, (taille_liste), int(taille_liste/nb_runs))]
             liste_separation_runs_parfaite[-1] = taille_liste
 
-            # On met les deux extremums de la liste des séparations
+            # On met les deux extremums de la liste des sÃ©parations
             liste_separation_runs = [0, taille_liste]
             for i in range(1, nb_runs - 0 if nb_runs > 0 else 0):
                 separation_min = liste_separation_runs_parfaite[i] - (liste_separation_runs_parfaite[i] * delta / 100) #0 if (i - 1) < 0 else liste_separation_runs_parfaite[i-1]
                 separation_max = liste_separation_runs_parfaite[i] + ((liste_separation_runs_parfaite[-1] - liste_separation_runs_parfaite[i]) * delta / 100)
                 liste_separation_runs.append(random.randint(int(separation_min), int(separation_max)))
 
-            # On tri les séparations dans le cas où l'anthropie ait permis des cheuvauchements de bornes
+            # On tri les sÃ©parations dans le cas oÃ¹ l'anthropie ait permis des cheuvauchements de bornes
             liste_separation_runs.sort()
 
-            # On crée la liste finale en remplissant les runs
+            # On crÃ©e la liste finale en remplissant les runs
             for i in range(len(liste_separation_runs) - 1):
                 for j in range(liste_separation_runs[i], liste_separation_runs[i+1]):
                     liste[j] = random.randint(borne_inf, borne_sup)
@@ -171,22 +171,22 @@ for n in range(nb_listes):
                 if xi :
                     entropie_reel -= xi * math.log2(xi)
     
-            print("entropie de la liste n°" + str(num_liste) + " : " + str(entropie_reel) + "\n")
+            print("entropie de la liste nÂ°" + str(num_liste) + " : " + str(entropie_reel) + "\n")
             """
             # calcul de l'entropie de la liste
             entropie = entropy_utils.get_entropy_from_runs_separation(liste_separation_runs, taille_liste)
 
 
         elif methode == "run_delta_with_unsorted":
-            # "séparation" = bornes des runs
+            # "sÃ©paration" = bornes des runs
 
-            # On crée une liste de séparation parfaite qui nous servira de référence pour choisir l'anthropie
+            # On crÃ©e une liste de sÃ©paration parfaite qui nous servira de rÃ©fÃ©rence pour choisir l'anthropie
             liste_separation_runs_parfaite = [i for i in range(0, (taille_liste), int(taille_liste/nb_runs))]
             liste_separation_runs_parfaite[-1] = taille_liste
 
 
 
-            # On met les deux extremums de la liste des séparations
+            # On met les deux extremums de la liste des sÃ©parations
             liste_separation_runs = [0, taille_liste]
             for i in range(1, nb_runs - 0 if nb_runs > 0 else 0):
                 separation_min = liste_separation_runs_parfaite[i] - (liste_separation_runs_parfaite[i] * delta / 100) #0 if (i - 1) < 0 else liste_separation_runs_parfaite[i-1]
@@ -194,11 +194,11 @@ for n in range(nb_listes):
                 liste_separation_runs.append(random.randint(int(separation_min), int(separation_max)))
 
 
-            # On tri les séparations dans le cas où le delta ait permis des cheuvauchements de bornes
+            # On tri les sÃ©parations dans le cas oÃ¹ le delta ait permis des cheuvauchements de bornes
             liste_separation_runs.sort()
 
             nb_runs_non_tries = 5 # a supp
-            # On prend des runs au hasard pour les rendres non triés
+            # On prend des runs au hasard pour les rendres non triÃ©s
             runs_a_ne_pas_trier = dict()
             while nb_runs_non_tries > 0:
                 index = random.randint(0, len(liste_separation_runs) - 1)
@@ -206,7 +206,7 @@ for n in range(nb_listes):
                     runs_a_ne_pas_trier.append(index)
                     nb_runs_non_tries = nb_runs_non_tries - 1
 
-            # On crée la liste finale en remplissant les runs
+            # On crÃ©e la liste finale en remplissant les runs
             for i in range(len(liste_separation_runs) - 1):
                 for j in range(liste_separation_runs[i], liste_separation_runs[i+1]):
                     liste[j] = random.randint(borne_inf, borne_sup)
@@ -226,7 +226,7 @@ for n in range(nb_listes):
             #print("liste_separation_runs : ", liste_separation_runs)
 
 
-            # On crée la liste finale en remplissant les runs
+            # On crÃ©e la liste finale en remplissant les runs
             for i in range(len(liste_separation_runs) - 1):
                 for j in range(liste_separation_runs[i], liste_separation_runs[i+1]):
                     liste[j] = random.randint(borne_inf, borne_sup)
@@ -238,17 +238,17 @@ for n in range(nb_listes):
 
 
         else:
-            print("Aucune méthode valide n'a été précisé")
+            print("Aucune mÃ©thode valide n'a Ã©tÃ© prÃ©cisÃ©")
             exit()
 
-        # écriture de la liste dans un fichier
+        # Ã©criture de la liste dans un fichier
         if not os.path.exists(destination_folder):
             os.makedirs(destination_folder)
         fichier_liste = open(destination_folder + "/liste" + str(num_liste),"w+")
         fichier_liste_nom = os.path.abspath(fichier_liste.name)
         for element in liste:
             fichier_liste.write(str(element) + " ")
-        # On écrit le type de liste et le nombre d'elements qu'il y a dedans
+        # On Ã©crit le type de liste et le nombre d'elements qu'il y a dedans
         #fichier_liste.write("\n" + methode + str(num_liste) + " " + str(taille_liste))
         #fichier_liste.write("""
         #{
@@ -264,7 +264,7 @@ for n in range(nb_listes):
 
         fichier_liste.close()
 
-        # ajout du fichier créé dans le fichier paths
+        # ajout du fichier crÃ©Ã© dans le fichier paths
         fichier_path.write(fichier_liste_nom + "\n")
 
 

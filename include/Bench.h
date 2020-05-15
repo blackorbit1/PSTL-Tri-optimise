@@ -11,6 +11,7 @@
 #include <iterator>
 #include <chrono>
 #include <array>
+#include <boost/sort/sort.hpp>
 
 class TimWrap{
 public:
@@ -81,12 +82,20 @@ public:
             time[i] = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start).count();
         }
 
+//        for(auto i: time){
+//            std::cout << i << ' ';
+//        }
+//        std::cout << '\n';
         std::sort(time.begin(), time.end());
 
+//        for(auto i: time){
+//            std::cout << i << ' ';
+//        }
+//        std::cout << '\n';
     }
     template <class U>
     friend std::ostream& operator<<(std::ostream& out, const BenchMark<U>& b);
-    static const int K = 93;
+    static const int K = 97;
 
 private:
     std::vector<int> baseArray;
@@ -101,6 +110,7 @@ std::ostream& operator<<(std::ostream& out, const BenchMark<U>& b){
     out << "\t{\n" <<
             "\t\t\"meta\": \"" << b.metaData << "\",\n" <<
             "\t\t\"time\": \"" << b.time[b.K/2+1] << "\",\n" <<
+            "\t\t\"interquartile_range\": \"" << b.time[((b.K)*3)/4+1] - b.time[(b.K)/4+1] << "\",\n" <<
             "\t\t\"algo\": \"" << b.name << "\"\n" <<
             "\t}\n";
     return out;
@@ -127,6 +137,7 @@ void launchBench(std::istream& infile, std::ostream& out){
     std::vector<BenchMark<IntroWrap>> arrayIntro;
     std::vector<BenchMark<MergeSortWrap>> arrayMerge;
     std::vector<BenchMark<HybrMergeSortWrap>> arrayMergeIns;
+
     while(std::getline(infile, line) && std::getline(infile, meta)){
         split(line, vect);
 

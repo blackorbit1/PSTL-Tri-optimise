@@ -53,7 +53,7 @@ void naiveMerge(std::vector<T>& array){
 template <class T>
 void adaptativeShiverSort(std::vector<T>& array){
     auto merge = stdInplaceMerge<int>();
-    auto runf = runFinderInsert<int>(32);
+    auto runf = runFinderInsert2<int>(32);
     auto mergeRules = AdaptativeShiverSort<typeof(merge), int>();
     sort(array, runf, merge, mergeRules);
 }
@@ -61,7 +61,7 @@ void adaptativeShiverSort(std::vector<T>& array){
 template <class T>
 void timSort(std::vector<T>& array){
     auto merge = stdInplaceMerge<int>();
-    auto runf = runFinderInsert<int>(32);
+    auto runf = runFinderInsert2<int>(32);
     auto mergeRules = TimSort<typeof(merge), int>();
 
     sort(array, runf, merge, mergeRules);
