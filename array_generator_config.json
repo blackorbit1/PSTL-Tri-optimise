@@ -3,11 +3,11 @@
 
     "methode_tri" : "nb_runs_given_by_entropy",
 
-    "nb_listes" : 10,
-    "taille" : "10000",
-    "nb_repetitions": 30,
+    "nb_listes" : 20,
+    "taille" : "t + 5000",
+    "nb_repetitions": 50,
 
-    "taille_depart" : 100,
+    "taille_depart" : 0,
     "taille_fin": 10000,
     "pas_logarithmique": false,
 
