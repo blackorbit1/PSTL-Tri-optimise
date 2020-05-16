@@ -45,6 +45,7 @@ for n in range(nb_listes):
     td = taille_depart
     nb = nb_listes
     n = n # (nième configuration de liste) variable utilisé dans le fichier json de configuration
+    nbrep = nb_repetitions
 
     taille_liste = int(eval(taille_formule))
 
@@ -56,16 +57,23 @@ for n in range(nb_listes):
     nb_runs = int(eval(nb_runs_formule))
 
 
-    # --- --- --- Calcul de l'entropie demandée --- --- --- #
-    la = entropie_demandee
-
-    entropie_demandee = float(eval(entropie_demandee_formule))
-
-
-
     #nb_runs = int(nb_runs + (nb_runs_fin - nb_runs_depart)/nb_listes)
 
     for repetition in range(nb_repetitions):
+
+        # --- --- --- Calcul de l'entropie demandée --- --- --- #
+        la = entropie_demandee
+        rep = repetition
+
+        entropie_demandee = float(eval(entropie_demandee_formule))
+
+        #print(rep, " : ", entropie_demandee)
+
+        #(rep % ((nbrep / 10) - 1) / 10 )
+
+        #0 if repetition == 0 else ((la + 0.1) if (rep % (nbrep / 10)) == 0 else la)
+
+
 
         liste = [None]*taille_liste
         entropie = 0.0

@@ -15,15 +15,21 @@ if len(sys.argv) < 2:
 ### --- --- --- Parsing des résultats --- --- --- ###
 
 liste_benchs = dict()
+algos_a_retirer = ["MergeSort"]
+nb_algos = 0
 
 for path in open('paths'):
     try:
-        res_path = str(path).replace("/tab/", "/res_old/").split("\n")[0]
+        res_path = str(path).replace("/tab/", "/res/").split("\n")[0]
         configuration = json.load(open(res_path))
+
+        nb_algos = len(configuration["content"]) - len(algos_a_retirer)
+
+        #print("nb algos : ", nb_algos)
 
         for resultat_test in configuration["content"]:
             methode_liste, taille_liste, entropie = str(resultat_test["meta"]).split(" / ")
-            if resultat_test["algo"] != "MergeSort": # <<<<< A SUPP
+            if not resultat_test["algo"] in algos_a_retirer: # <<<<< A SUPP
                 algo = resultat_test["algo"]
                 if algo not in liste_benchs: liste_benchs[algo] = []
                 liste_benchs[algo].append({
@@ -176,34 +182,59 @@ for graphique, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
 
         temps = list()
-
+        nb_entro = 0
+        nb_val = 0
         for key in boites.keys():
-            for val in boites[key].values():
+            nb_entro = 0
+            for key, val in boites[key].items():
+                nb_entro += 1
                 #print(val)
+                nb_val = val.values()
+                print(">> ", key, " >>>> : ", nb_val)
                 temps += list(val.values())
 
             #values = values + [val for val in boites[key].values()]
 
         print(next(iter(boites)))
 
+        print("nb algos : ", len(boites.keys()))
+        print("nb entropies : ", nb_entro)
+        print("nb vals : ", nb_val)
+
         algos = list()
 
-
-
+        """
         for key in boites.keys():
             algos = algos + [key for i in range(len(boites[key].values()))] * len(list(list(boites.values())[0].values())[0])
         #algos = algos*int(len(values)/len(algos))
+        """
+
+
+        for key1 in boites.keys():
+            for key2, val in boites[key1].items():
+                algos += [key1] * len(val.values())
 
 
         entropy = list()
 
+        """
         for i in range(len(boites.keys())):
-            for key in list(boites.values())[0].keys():
+            for key in list(boites.values())[i].keys():
                 entropy = entropy + [key] * len(list(list(boites.values())[0].values())[0])
             #entropy = entropy + [key for key in list(boites.values())[0].keys()] * len(list(list(boites.values())[0].values())[0])
         #temps = temps*int(len(values)/len(temps))
+        """
 
-        print(entropy)
+
+
+        for key1 in boites.keys():
+            for key2, val in boites[key1].items():
+                entropy += [key2] * len(val.values())
+
+
+
+
+        print("nb val par entro : ", len(list(list(boites.values())[0].values())[0]))
 
         #print(int(len(values)/len(algos)))
         #print(len(list(list(boites.values())[0].values())[0]))
@@ -231,7 +262,7 @@ for graphique, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
 
 
-    #X = np.repeat(np.atleast_2d(np.arange(len([key for key in list(boites.values())[0].keys()]))),len([key for key in boites.keys()]), axis=0)+ np.array([[-.2],[.2]])
+        #X = np.repeat(np.atleast_2d(np.arange(len([key for key in list(boites.values())[0].keys()]))),len([key for key in boites.keys()]), axis=0)+ np.array([[-.2],[.2]])
 
         pyplot.show()
 
