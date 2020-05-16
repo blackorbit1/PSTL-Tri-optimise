@@ -19,11 +19,12 @@ Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 - nb_runs_given_by_entropy *(tous les runs ont la meme taille)*
 
 **Variables de taille liste :**
+- nbrep = nombre de répétition pour chaque configuration de liste
 - t = taille de la liste précédente (taille début pour la première)
 - tf = taille_fin
 - td = taille_départ
-- nb = nombre total de listes
-- n = numéro de liste
+- nb = nombre total de listes (hors répétitions)
+- n = numéro de liste (hors répétitions)
 
 **Variables de nombre de runs :**
 - *toutes les variables de taille de liste*
@@ -33,6 +34,7 @@ Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 
 **Variable entropie :**
 - la = entropie de l'itération précédente (0 à la 1ère itération)
+- nième répétition (en partant de 0)
 
 
 ## Utilisation de generateur_graphique.py
