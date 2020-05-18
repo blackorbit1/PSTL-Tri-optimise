@@ -40,11 +40,13 @@ Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 ## Utilisation de generateur_graphique.py
 
 ```
-Usage: $ generateur_graphique.py param_1 [param_n]
+   Usage: $ generateur_graphique.py param_1 [param_n] [-s --size]
  
    * param_1: name of a graphic you want
    * ...
    * param_n: name of a graphic you want
+ 
+   * -s / --size integer_1 ... integer_n : all list size you want to display
 ```
 
 Voici les différents types de graphiques disponibles :
