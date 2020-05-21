@@ -110,7 +110,7 @@ std::ostream& operator<<(std::ostream& out, const BenchMark<U>& b){
     out << "\t{\n" <<
             "\t\t\"meta\": \"" << b.metaData << "\",\n" <<
             "\t\t\"time\": \"" << b.time[b.K/2+1] << "\",\n" <<
-            "\t\t\"interquartile_range\": \"" << b.time[((b.K)*3)/4+1] - b.time[(b.K)/4+1] << "\",\n" <<
+//            "\t\t\"interquartile_range\": \"" << b.time[((b.K)*3)/4+1] - b.time[(b.K)/4+1] << "\",\n" <<
             "\t\t\"algo\": \"" << b.name << "\"\n" <<
             "\t}\n";
     return out;
@@ -144,7 +144,7 @@ void launchBench(std::istream& infile, std::ostream& out){
 
         arrayTim.push_back(BenchMark<TimWrap>(vect, "TimSort", (char*)meta.c_str()));
         arrayASS.push_back(BenchMark<AdaptiveShiverSortWrap>(vect, "AdaptativeShiverSort", (char*)meta.c_str()));
-        arrayIntro.push_back(BenchMark<IntroWrap>(vect, "std::sort", (char*)meta.c_str()));
+        arrayIntro.push_back(BenchMark<IntroWrap>(vect, "stdSort", (char*)meta.c_str()));
         arrayMerge.push_back(BenchMark<MergeSortWrap>(vect, "MergeSort", (char*)meta.c_str()));
         arrayMergeIns.push_back(BenchMark<HybrMergeSortWrap>(vect, "HybridMergeSort", (char*)meta.c_str()));
 

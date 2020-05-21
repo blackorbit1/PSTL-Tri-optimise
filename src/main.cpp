@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     if (vm.count("sandbox")) {
-        auto vect = genRandomInt(9851851);
+        auto vect = genRandomInt(98851);
 
         timSort(*vect);
 
