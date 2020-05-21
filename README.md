@@ -56,7 +56,12 @@ Voici les différents types de graphiques disponibles :
 - **temps/entropie**\
   x = valeur entropie\
   y = temps execution
- 
+- **heatmap**\
+  -> pout chaque algo :\
+  x = taille liste\
+  y = entropie (en % de 0 à 1 avec 1 l'entropie maximum)\
+  z = temps d'execution
+
 Exemple : 
 ```BASH
 $ python3 generateur_graphique.py temps/entropie temps/taille`
