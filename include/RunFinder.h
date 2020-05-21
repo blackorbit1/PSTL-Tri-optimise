@@ -118,7 +118,7 @@ public:
         bool increasing = array[0] < array[1];
         run.push(0);
         for (int i = 1; i < array.size() - 1; i++) {
-            if (!increasing ^ (array[i] > array[i + 1])) {
+            if (increasing ^ (array[i] > array[i + 1])) {
                 if(!increasing && array[i] < array[i + 1])
                     std::reverse(array.begin() + run.lookup(), array.begin() + i + 1);
 

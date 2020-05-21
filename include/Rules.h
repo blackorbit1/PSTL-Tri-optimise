@@ -59,7 +59,7 @@ public:
     bool operator()(std::vector<T> &array, StackOfRun &stack, MergeStrat &merge) {
         int nbOfRun = stack.nbOfRun();
         // on ne peut appliquer les regles que s'il y a au moins 2 runs dans la pile
-        if(stack.nbOfRun() <= 1){
+        if(nbOfRun <= 1){
             return false;
         }
 
