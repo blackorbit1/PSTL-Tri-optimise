@@ -31,7 +31,7 @@ nb_algos = 0
 
 for path in open('paths'):
     try:
-        res_path = str(path).replace("/tab/", "/res_lip6/").split("\n")[0]
+        res_path = str(path).replace("/tab/", "/res/").split("\n")[0]
         configuration = json.load(open(res_path))
 
         nb_algos = len(configuration["content"]) - len(algos_a_retirer)
@@ -415,6 +415,11 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                     data[n]["entropy"] += [key2] * len(val.values())
 
 
+            print("entropy : ", len(data[n]["entropy"]))
+            print("algos : ", len(data[n]["algos"]))
+            print("temps : ", len(data[n]["temps"]))
+            print("size : ", size_to_display[n])
+
 
 
             data[n]["df"] = pd.DataFrame({'Algorithme': data[n]["algos"],
@@ -422,7 +427,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                                'Temps': data[n]["temps"] })
 
 
-            data[n]["ax"] = sns.boxplot(ax = d[n], x='Entropie', hue='Algorithme', y='Temps', data=data[n]["df"], showcaps = False, linewidth=0.5)
+            data[n]["ax"] = sns.boxplot(ax = d[n], x='Entropie', hue='Algorithme', y='Temps', data=data[n]["df"], showcaps = False, whis = [0, 100], linewidth=0.5)
             if nb_sous_graphes > 1 :
                 d[n].set_title("listes de taille " + str(size_to_display[n]))
             else :
