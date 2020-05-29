@@ -1,5 +1,5 @@
 from matplotlib import pyplot
-import json, sys
+import json, sys, os
 import seaborn as sns
 import pandas as pd
 import math
@@ -27,30 +27,39 @@ if len(sys.argv) < 2:
 
 liste_benchs = dict()
 algos_a_retirer = ["MergeSort"]
+#algos_a_retirer = ["AdaptativeShiverSort", "stdSort", "TimSort"]
 nb_algos = 0
+DOSSIER_RES = "res_lip6/"
 
-for path in open('paths'):
-    try:
-        res_path = str(path).replace("/tab/", "/res/").split("\n")[0]
-        configuration = json.load(open(res_path))
+for res_path in [os.getcwd() + "/" + DOSSIER_RES + x for x in os.listdir(DOSSIER_RES)]:
+    if "liste" in res_path:
+        #print(open(res_path))
+        try:
+            #res_path = str(path).replace("/tab/", "/res/").split("\n")[0]
 
-        nb_algos = len(configuration["content"]) - len(algos_a_retirer)
+            configuration = json.load(open(res_path))
 
-        #print("nb algos : ", nb_algos)
+            nb_algos = len(configuration["content"]) - len(algos_a_retirer)
 
-        for resultat_test in configuration["content"]:
-            methode_liste, taille_liste, entropie = str(resultat_test["meta"]).split(" / ")
-            if not resultat_test["algo"] in algos_a_retirer: # <<<<< A SUPP
-                algo = resultat_test["algo"]
-                if algo not in liste_benchs: liste_benchs[algo] = []
-                liste_benchs[algo].append({
-                    "methode_liste": methode_liste.split(".")[0].replace("_", " "),
-                    "taille_liste": taille_liste,
-                    "time": resultat_test["time"],
-                    "entropie": round(float(entropie), 3)
-                })
-    except Exception:
-        pass
+
+            #print("nb algos : ", nb_algos)
+            #print(configuration)
+            #print(configuration["content"])
+
+            for resultat_test in configuration["content"]:
+                #print(str(resultat_test["meta"]))
+                methode_liste, taille_liste, entropie = str(resultat_test["meta"]).split(" / ")
+                if not resultat_test["algo"] in algos_a_retirer: # <<<<< A SUPP
+                    algo = resultat_test["algo"]
+                    if algo not in liste_benchs: liste_benchs[algo] = []
+                    liste_benchs[algo].append({
+                        "methode_liste": methode_liste.split(".")[0].replace("_", " "),
+                        "taille_liste": taille_liste,
+                        "time": resultat_test["time"],
+                        "entropie": round(float(entropie), 3)
+                    })
+        except Exception:
+            pass
 """
 fig, host = pyplot.subplots()
 par1 = host.twinx()
@@ -237,6 +246,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
         rows = max(1, (columns - 1) if (columns - 1)*columns >= len(algos_to_display) else columns)
         print(columns, rows)
         fig, axes = pyplot.subplots(rows,columns,figsize=[10,10],frameon = False)
+
         if not type(axes) == np.ndarray :
             if type(axes) == tuple:
                 axes = [list(axes)]
@@ -257,6 +267,9 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
         nb_sous_graphes = max(len(algos_to_display), 1)
         data = [dict() for _ in range(nb_sous_graphes)]
+
+        time_min = 0
+        time_max = 0
 
         for n, algo in zip(range(nb_sous_graphes), algos_to_display):
 
@@ -280,7 +293,9 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                     if not taille in data[n]["boites"][key][taux_entropie]:
                         data[n]["boites"][key][taux_entropie][taille] = dict()
 
-                    data[n]["boites"][key][taux_entropie][taille][i] = float(bench["time"])/1000000
+                    time = float(bench["time"])/1000000
+                    if time > time_max : time_max = time
+                    data[n]["boites"][key][taux_entropie][taille][i] = time
 
                     i += 1
 
@@ -301,7 +316,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
 
 
-            data[n]["ax"] = sns.heatmap(data[n]["tableau"], linewidth=0, cmap="inferno", ax = d[n])
+            data[n]["ax"] = sns.heatmap(data[n]["tableau"], linewidth=0, cmap="inferno", ax = d[n], vmin=time_min, vmax=time_max)
             data[n]["ax"].invert_yaxis()
             d[n].set_title("Performances de l'algorithme " + str(algos_to_display[n]))
 
@@ -346,7 +361,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                     size_index += 1
 
 
-
+        print(size_to_display)
         pyplot.figure(param)
         liste_benchs_entropie = []
 
@@ -388,6 +403,8 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 for bench in liste_benchs_entropie:
                     entro = float(bench["entropie"])
 
+                    #print(key, entro, float(bench["time"])/1000000)
+
                     if not key in data[n]["boites"] :
                         data[n]["boites"][key] = dict()
                     if not entro in data[n]["boites"][key]:
@@ -414,11 +431,12 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 for key2, val in data[n]["boites"][key1].items():
                     data[n]["entropy"] += [key2] * len(val.values())
 
-
+            #print("boites : ", data[n]["boites"])
             print("entropy : ", len(data[n]["entropy"]))
             print("algos : ", len(data[n]["algos"]))
             print("temps : ", len(data[n]["temps"]))
             print("size : ", size_to_display[n])
+            #print("liste_benchs : ", liste_benchs)
 
 
 
