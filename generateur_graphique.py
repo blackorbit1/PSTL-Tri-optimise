@@ -29,7 +29,7 @@ liste_benchs = dict()
 algos_a_retirer = ["MergeSort"]
 #algos_a_retirer = ["AdaptativeShiverSort", "stdSort", "TimSort"]
 nb_algos = 0
-DOSSIER_RES = "res_lip6/"
+DOSSIER_RES = "res_lip8_vieux/"
 
 for res_path in [os.getcwd() + "/" + DOSSIER_RES + x for x in os.listdir(DOSSIER_RES)]:
     if "liste" in res_path:
