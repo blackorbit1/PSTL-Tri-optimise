@@ -29,7 +29,8 @@ liste_benchs = dict()
 algos_a_retirer = ["MergeSort"]
 #algos_a_retirer = ["AdaptativeShiverSort", "stdSort", "TimSort"]
 nb_algos = 0
-DOSSIER_RES = "res_lip8_vieux/"
+DOSSIER_RES = "res_bizarre/"
+NANOSEC_TO_SEC = 1000000000
 
 for res_path in [os.getcwd() + "/" + DOSSIER_RES + x for x in os.listdir(DOSSIER_RES)]:
     if "liste" in res_path:
@@ -93,8 +94,25 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
     if param == "temps/taille":
         pyplot.figure(param)
         for key in liste_benchs:
-            pyplot.plot([i["taille_liste"] for i in liste_benchs[key]],
-                        [(int(i["time"]) / 1000000) for i in liste_benchs[key]], marker='o', linestyle="-", label=key)
+            liste_benchs[key] = sorted(liste_benchs[key], key=lambda k: float(k['taille_liste']))
+            temp = dict()
+            for bench in liste_benchs[key]:
+                if not bench["taille_liste"] in temp :
+                    temp[bench["taille_liste"]] = list()
+                temp[bench["taille_liste"]].append(int(bench["time"]))
+
+            #print(temp)
+            taille_temps = list()
+            for taille, temps in temp.items():
+                print(taille, temps)
+                data = dict()
+                data["taille_liste"] = int(taille)
+                data["time"] = int(mean(temps))
+                taille_temps.append(data)
+
+            print(taille_temps)
+            pyplot.plot([i["taille_liste"] for i in taille_temps],
+                        [(int(i["time"]) / NANOSEC_TO_SEC) for i in taille_temps], marker='o', linestyle="-", label=key)
             pyplot.ylabel("temps (sec)")
             pyplot.xlabel("nb elements")
 
@@ -132,7 +150,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                     boites[key] = dict()
                 if not taille in boites[key]:
                     boites[key][taille] = dict()
-                boites[key][taille][i] = float(bench["time"])/1000000
+                boites[key][taille][i] = float(bench["time"])/NANOSEC_TO_SEC
 
                 i += 1
 
@@ -160,7 +178,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
         pyplot.savefig('new_temps_taille.png')
 
-    if param == "heatmap":
+    if param == "old_heatmap":
         pyplot.figure(param)
         liste_benchs_entropie = []
 
@@ -188,7 +206,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 if not taille in boites[key][taux_entropie]:
                     boites[key][taux_entropie][taille] = dict()
 
-                boites[key][taux_entropie][taille][i] = float(bench["time"])/1000000
+                boites[key][taux_entropie][taille][i] = float(bench["time"])/NANOSEC_TO_SEC
 
                 i += 1
         taille_listes = len(list(list(list(boites.values())[0].values())[0].values())[0])
@@ -223,13 +241,13 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
             pyplot.figure(param)
             ax = sns.heatmap(tableau[i], linewidth=0, cmap="inferno")
             ax.invert_yaxis()
-            pyplot.savefig('heatmap' + str(i) + '.png')
+            pyplot.savefig('old_heatmap' + str(i) + '.png')
 
         exit()
 
         pyplot.show()
 
-    if param == "new_heatmap":
+    if param == "heatmap":
 
         algos_to_display = list()
         for algo in liste_benchs:
@@ -254,7 +272,12 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 axes = [[axes]]
 
         pyplot.tight_layout()
-        pyplot.subplots_adjust(left=None, bottom=None, right=None, top= 0.9, wspace=0.25 , hspace=0.2)
+        pyplot.subplots_adjust(left=None, bottom=0.1, right=None, top= 0.95, wspace=0.25 , hspace=0.35)
+        #pyplot.setp(axes, xlabel='drghdrhrthdrthrdt')
+        #pyplot.setp(axes, ylabel='rthrthdrthdrth')
+        #pyplot.xlabel("taille")
+        #pyplot.ylabel("entropie")
+        #pyplot.tight_layout()
 
         liste_sous_graphes = list()
         d = {}
@@ -264,6 +287,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
             for c in range(columns):
                 d[i] = axes[r][c]
                 i += 1
+
 
         nb_sous_graphes = max(len(algos_to_display), 1)
         data = [dict() for _ in range(nb_sous_graphes)]
@@ -293,17 +317,26 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                     if not taille in data[n]["boites"][key][taux_entropie]:
                         data[n]["boites"][key][taux_entropie][taille] = dict()
 
-                    time = float(bench["time"])/1000000
+                    time = float(bench["time"])/NANOSEC_TO_SEC
                     if time > time_max : time_max = time
                     data[n]["boites"][key][taux_entropie][taille][i] = time
 
                     i += 1
 
             taille_listes = len(list(list(list(data[n]["boites"].values())[0].values())[0].values())[0])
+
+
+
+            tailles_listes = sorted(list(list(list(data[n]["boites"].values())[0].values())[0].keys()))
+            pas_tailles_listes = tailles_listes[0]
+            nb_tailles_listes = len(tailles_listes)
+            nb_entropies = len(list(list(data[n]["boites"].values())[0].keys()))
+
+
             data[n]["tableau"] = list()#[[0]*20]*20
-            for i in range(10):
+            for i in range(nb_entropies):
                 temps_tab = list()
-                for y in range(20):
+                for y in range(nb_tailles_listes):
                     temps_tab.append(0)
                 data[n]["tableau"].append(temps_tab)
             x = 0
@@ -312,15 +345,29 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
             for key, val in data[n]["boites"][algo].items():
                 for key3, val2 in data[n]["boites"][algo][key].items():
-                    data[n]["tableau"][key][int(key3/5000)-1] = mean(list(val2.values()))
+                    data[n]["tableau"][key][int(key3/pas_tailles_listes)-1] = mean(list(val2.values()))
 
 
 
-            data[n]["ax"] = sns.heatmap(data[n]["tableau"], linewidth=0, cmap="inferno", ax = d[n], vmin=time_min, vmax=time_max)
+            data[n]["ax"] = sns.heatmap(
+                data[n]["tableau"],
+                linewidth=0,
+                cmap="inferno",
+                ax = d[n],
+                vmin=time_min,
+                vmax=time_max,
+                xticklabels = tailles_listes,
+                cbar_kws={'label': "temps d'execution"})
             data[n]["ax"].invert_yaxis()
+            #pyplot.xlabel("taille", axes=axes)
+            #pyplot.ylabel("entropie", axes=axes)
+            data[n]["ax"].set_xlabel("taille")
+            data[n]["ax"].set_ylabel("entropie")
             d[n].set_title("Performances de l'algorithme " + str(algos_to_display[n]))
 
-        pyplot.savefig('new_heatmap.png')
+            #data[n]["ax"].autoscale_view(True, False, False)
+
+        pyplot.savefig('heatmap.png')
 
     if param == "old_temps/entropie":
         pyplot.figure(param)
@@ -340,7 +387,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
             #print(liste_benchs_entropie)
             #print("\n\n")
             pyplot.plot([i["entropie"] for i in liste_benchs_entropie],
-                        [(int(i["time"]) / 1000000) for i in liste_benchs_entropie], marker='o', linestyle="-", label=key)
+                        [(int(i["time"]) / NANOSEC_TO_SEC) for i in liste_benchs_entropie], marker='o', linestyle="-", label=key)
             pyplot.ylabel("temps (sec)")
             pyplot.xlabel("entropie")
 
@@ -403,14 +450,14 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 for bench in liste_benchs_entropie:
                     entro = float(bench["entropie"])
 
-                    #print(key, entro, float(bench["time"])/1000000)
+                    #print(key, entro, float(bench["time"])/NANOSEC_TO_SEC)
 
                     if not key in data[n]["boites"] :
                         data[n]["boites"][key] = dict()
                     if not entro in data[n]["boites"][key]:
                         data[n]["boites"][key][entro] = dict()
                     if (len(size_to_display) > 0 and size_to_display[n] == int(bench["taille_liste"])) or len(size_to_display) == 0 :
-                        data[n]["boites"][key][entro][i] = float(bench["time"])/1000000
+                        data[n]["boites"][key][entro][i] = float(bench["time"])/NANOSEC_TO_SEC
 
                     i += 1
 
