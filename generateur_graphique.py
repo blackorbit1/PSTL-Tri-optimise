@@ -116,25 +116,39 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
             pyplot.ylabel("temps (sec)")
             pyplot.xlabel("nb elements")
 
-        """
-        # Plot y2 vs x in red on the right vertical axis.
-        pyplot.twinx()
-        pyplot.ylabel("entropie", color="r")
-        pyplot.tick_params(axis="y", labelcolor="r")
-        # print([i["entropie"] for i in liste_benchs[key]])
-        pyplot.plot([i["taille_liste"] for i in liste_benchs[key]], [i["entropie"] for i in liste_benchs[key]], "r-",
-                    marker='o', linestyle=":")
-        # pyplot.plot(x, y2, "r-", linewidth=2)
-        """
-
 
         pyplot.legend(loc="upper left")
         pyplot.savefig('temps_taille.png')
 
 
-    if param == "new_temps/taille":
+    if param == "temps/taille_box":
         pyplot.figure(param)
         liste_benchs_entropie = []
+
+        intervale = list()
+
+        for arg, i in zip(sys.argv, [x for x in range(len(sys.argv))]):
+            if (n+1) < len(sys.argv) and (arg == "--intervale_entro" or arg == "-i") and (i+1) < len(sys.argv) and sys.argv[i+1].isnumeric():
+                size_index = 0
+                while (n + size_index + 2) < len(sys.argv) and sys.argv[n + size_index + 2].isnumeric():
+                    intervale.append(float(sys.argv[n + size_index + 2])/100)
+                    size_index += 1
+
+
+        print(intervale)
+
+        borne_inf = 0
+        borne_sup = 1
+
+        if len(intervale) > 0 :
+            if len(intervale) != 2:
+                print("Attention ! le nombre de bornes pour l'entropie est invalide")
+            elif intervale[0] > intervale[1] or intervale[0] < 0 or intervale[1] > 1:
+                print("Attention ! les bornes d'entropie sont invalides")
+            else:
+                borne_inf = intervale[0]
+                borne_sup = intervale[1]
+        #exit()
 
 
 
@@ -145,14 +159,24 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
             i = 0
             for bench in liste_benchs_taille:
                 taille = float(bench["taille_liste"])
+                entro = float(bench["entropie"])
+
+                max_entropy = e.get_entropy_from_nb_runs(taille)
+                taux_entropie = float(round(entro / max_entropy, 2))
+
+                print("taux_entropie : ", taux_entropie)
 
                 if not key in boites :
                     boites[key] = dict()
                 if not taille in boites[key]:
                     boites[key][taille] = dict()
-                boites[key][taille][i] = float(bench["time"])/NANOSEC_TO_SEC
+
+                if taux_entropie >= borne_inf and taux_entropie <= borne_sup:
+                    boites[key][taille][i] = float(bench["time"])/NANOSEC_TO_SEC
 
                 i += 1
+
+        print(boites)
 
         temps = list()
         for key in boites.keys():
@@ -176,7 +200,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
         ax = sns.boxplot(x='Taille', hue='Algorithme', y='Temps', data=df, showcaps = False, whis = [0, 100], linewidth=0.5)
 
-        pyplot.savefig('new_temps_taille.png')
+        pyplot.savefig('temps_taille_box.png')
 
     if param == "old_heatmap":
         pyplot.figure(param)
@@ -357,7 +381,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 vmin=time_min,
                 vmax=time_max,
                 xticklabels = tailles_listes,
-                cbar_kws={'label': "temps d'execution"})
+                cbar_kws={'label': "temps d'execution (sec)"})
             data[n]["ax"].invert_yaxis()
             #pyplot.xlabel("taille", axes=axes)
             #pyplot.ylabel("entropie", axes=axes)
@@ -499,8 +523,160 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 d[n].set_title("Temps d'execution par rapport à l'entropie")
         pyplot.savefig('temps_entropie.png')
 
+    if param == "old_temps/entropie_courbes":
+        pyplot.figure(param)
+        for key in liste_benchs:
+            liste_benchs[key] = sorted(liste_benchs[key], key=lambda k: float(k['entropie']))
+            temp = dict()
+            for bench in liste_benchs[key]:
+                if not bench["entropie"] in temp :
+                    temp[bench["entropie"]] = list()
+                temp[bench["entropie"]].append(int(bench["time"]))
 
-### --- --- --- Affichage de tous les graphiques --- --- --- ###
+            #print(temp)
+            taille_temps = list()
+            for taille, temps in temp.items():
+                print(taille, temps)
+                data = dict()
+                data["entropie"] = round(taille, 2)
+                data["time"] = int(mean(temps))
+                taille_temps.append(data)
+
+            print(taille_temps)
+            pyplot.plot([i["entropie"] for i in taille_temps],
+                        [(int(i["time"]) / NANOSEC_TO_SEC) for i in taille_temps], marker='o', linestyle="-", label=key)
+            pyplot.ylabel("temps (sec)")
+            pyplot.xlabel("entropie")
 
 
-#pyplot.show()
+        pyplot.legend(loc="upper left")
+        pyplot.savefig('old_temps_entropie_courbes.png')
+
+    if param == "new_temps/entropie_courbes":
+        size_to_display = list()
+        for arg, i in zip(sys.argv, [x for x in range(len(sys.argv))]):
+            if (n+1) < len(sys.argv) and (arg == "--size" or arg == "-s") and (i+1) < len(sys.argv) and sys.argv[i+1].isnumeric():
+                size_index = 0
+                while (n + size_index + 2) < len(sys.argv) and sys.argv[n + size_index + 2].isnumeric():
+                    size_to_display.append(int(sys.argv[n + size_index + 2]))
+                    size_index += 1
+
+
+        print(size_to_display)
+        pyplot.figure(param)
+        liste_benchs_entropie = []
+
+
+
+        columns = max(1, math.ceil(math.sqrt(len(size_to_display))))
+        rows = max(1, (columns - 1) if (columns - 1)*columns >= len(size_to_display) else columns)
+        print(columns, rows)
+        fig, axes = pyplot.subplots(rows,columns,figsize=[10,10],frameon = False)
+        if not type(axes) == np.ndarray :
+            if type(axes) == tuple:
+                axes = [list(axes)]
+            else :
+                axes = [[axes]]
+
+        pyplot.tight_layout()
+        pyplot.subplots_adjust(left=None, bottom=None, right=None, top= 0.9, wspace=0.25 , hspace=0.2)
+
+        liste_sous_graphes = list()
+        d = {}
+        i = 0
+
+        for r in range(rows):
+            for c in range(columns):
+                d[i] = axes[r][c]
+                i += 1
+
+        nb_sous_graphes = max(len(size_to_display), 1)
+        data = [dict() for _ in range(nb_sous_graphes)]
+
+        for n in range(nb_sous_graphes):
+
+            entro = 0
+            iteration = 1
+            data[n]["boites"] = dict()
+            for key in liste_benchs:
+                liste_benchs_entropie = sorted(liste_benchs[key], key=lambda k: float(k['entropie']))
+                i = 0
+                for bench in liste_benchs_entropie:
+                    entro = float(bench["entropie"])
+
+                    #print(key, entro, float(bench["time"])/NANOSEC_TO_SEC)
+
+
+                    if (len(size_to_display) > 0 and size_to_display[n] == int(bench["taille_liste"])) or len(size_to_display) == 0 :
+                        if not key in data[n]["boites"] :
+                            data[n]["boites"][key] = dict()
+                        if not entro in data[n]["boites"][key]:
+                            data[n]["boites"][key][entro] = dict()
+                        data[n]["boites"][key][entro][i] = float(bench["time"])/NANOSEC_TO_SEC
+
+                    i += 1
+
+
+
+            data[n]["temps_entro"] = dict()
+
+            print(data[n]["boites"])
+
+            data[n]["temps"] = list()
+            for key1 in data[n]["boites"].keys():
+                data[n]["temps_entro"][key1] = list()
+                for key2, val in data[n]["boites"][key1].items():
+                    #data[n]["temps"] += list(val.values())
+                    print(key2, list(val.values()))
+                    temp = dict()
+                    temp["temps"] = mean(list(val.values()))
+                    temp["entro"] = key2
+                    data[n]["temps_entro"][key1].append(temp)
+
+            for key in data[n]["temps_entro"].keys():
+                print(key)
+                data[n]["ax"] = d[n].plot([i["entro"] for i in data[n]["temps_entro"][key]],
+                                            [((i["temps"])) for i in data[n]["temps_entro"][key]],
+                                          marker='o',
+                                          linestyle="-",
+                                          label=key,
+                                          linewidth=1.0,
+                                          markersize=2.0)
+                d[n].set_xlabel("temps (sec)")
+                d[n].set_ylabel("entropie")
+                d[n].legend(loc="upper left")
+            """
+            
+            
+            
+            data[n]["algos"] = list()
+            for key1 in data[n]["boites"].keys():
+                for key2, val in data[n]["boites"][key1].items():
+                    data[n]["algos"] += [key1] * len(val.values())
+    
+            data[n]["entropy"] = list()
+            for key1 in data[n]["boites"].keys():
+                for key2, val in data[n]["boites"][key1].items():
+                    data[n]["entropy"] += [key2] * len(val.values())
+    
+            #print("boites : ", data[n]["boites"])
+            print("entropy : ", len(data[n]["entropy"]))
+            print("algos : ", len(data[n]["algos"]))
+            print("temps : ", len(data[n]["temps"]))
+            print("size : ", size_to_display[n])
+            #print("liste_benchs : ", liste_benchs)
+    
+    
+    
+            data[n]["df"] = pd.DataFrame({'Algorithme': data[n]["algos"],
+                                          'Entropie': data[n]["entropy"],
+                                          'Temps': data[n]["temps"] })
+    
+    
+            data[n]["ax"] = sns.boxplot(ax = d[n], x='Entropie', hue='Algorithme', y='Temps', data=data[n]["df"], showcaps = False, whis = [0, 100], linewidth=0.5)
+            """
+            if nb_sous_graphes > 1 :
+                d[n].set_title("listes de taille " + str(size_to_display[n]))
+            else :
+                d[n].set_title("Temps d'execution par rapport à l'entropie")
+        pyplot.savefig('temps_entropie_courbe.png')
