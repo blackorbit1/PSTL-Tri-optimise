@@ -15,10 +15,10 @@ X = np.repeat(np.atleast_2d(np.arange(4)),2, axis=0)+ np.array([[-.2],[.2]])
 plt.show()
 
 """
-nbrep = 1000
+nbrep = 2000
 la = 0
 
 for rep in range(nbrep):
-    la = 0 if rep == 0 else (round((la + 0.05), 2) if (rep % (nbrep / 20)) == 0 else la)
+    la = 0 if rep == 0 else (round((la + 0.001), 3) if (rep % ((nbrep*3) / 1000)) == 0 else la)
     print(la, end="\t")
 
