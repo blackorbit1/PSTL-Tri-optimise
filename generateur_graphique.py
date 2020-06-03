@@ -29,7 +29,7 @@ liste_benchs = dict()
 algos_a_retirer = ["MergeSort"]
 #algos_a_retirer = ["AdaptativeShiverSort", "stdSort", "TimSort"]
 nb_algos = 0
-DOSSIER_RES = "res_bizarre/"
+DOSSIER_RES = "res_lip9/"
 NANOSEC_TO_SEC = 1000000000
 
 for res_path in [os.getcwd() + "/" + DOSSIER_RES + x for x in os.listdir(DOSSIER_RES)]:
@@ -287,7 +287,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
         columns = max(1, math.ceil(math.sqrt(len(algos_to_display))))
         rows = max(1, (columns - 1) if (columns - 1)*columns >= len(algos_to_display) else columns)
         print(columns, rows)
-        fig, axes = pyplot.subplots(rows,columns,figsize=[10,10],frameon = False)
+        fig, axes = pyplot.subplots(rows,columns,figsize=[5,10],frameon = False)
 
         if not type(axes) == np.ndarray :
             if type(axes) == tuple:
@@ -332,7 +332,8 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                     entro = float(bench["entropie"])
 
                     max_entropy = e.get_entropy_from_nb_runs(taille)
-                    taux_entropie = int(round(entro / max_entropy, 1) * 10)
+                    taux_entropie = int(int(round(entro / max_entropy, 2) * 20))
+                    print(taux_entropie, end="\t")
 
                     if not key in data[n]["boites"] :
                         data[n]["boites"][key] = dict()
@@ -369,7 +370,9 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
             for key, val in data[n]["boites"][algo].items():
                 for key3, val2 in data[n]["boites"][algo][key].items():
-                    data[n]["tableau"][key][int(key3/pas_tailles_listes)-1] = mean(list(val2.values()))
+                    #print(n, key, int(key3/pas_tailles_listes)-1)
+                    #print(list(val2.values()))
+                    data[n]["tableau"][min(key, 19)][int(key3/pas_tailles_listes)-1] = mean(list(val2.values()))
 
 
 
@@ -536,13 +539,13 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
             #print(temp)
             taille_temps = list()
             for taille, temps in temp.items():
-                print(taille, temps)
+                #print(taille, temps)
                 data = dict()
                 data["entropie"] = round(taille, 2)
                 data["time"] = int(mean(temps))
                 taille_temps.append(data)
 
-            print(taille_temps)
+            #print(taille_temps)
             pyplot.plot([i["entropie"] for i in taille_temps],
                         [(int(i["time"]) / NANOSEC_TO_SEC) for i in taille_temps], marker='o', linestyle="-", label=key)
             pyplot.ylabel("temps (sec)")
@@ -570,7 +573,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
         columns = max(1, math.ceil(math.sqrt(len(size_to_display))))
         rows = max(1, (columns - 1) if (columns - 1)*columns >= len(size_to_display) else columns)
-        print(columns, rows)
+        #print(columns, rows)
         fig, axes = pyplot.subplots(rows,columns,figsize=[10,10],frameon = False)
         if not type(axes) == np.ndarray :
             if type(axes) == tuple:
@@ -579,7 +582,7 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                 axes = [[axes]]
 
         pyplot.tight_layout()
-        pyplot.subplots_adjust(left=None, bottom=None, right=None, top= 0.9, wspace=0.25 , hspace=0.2)
+        pyplot.subplots_adjust(left=0.1, bottom=0.1, right=None, top= 0.9, wspace=0.25 , hspace=0.2)
 
         liste_sous_graphes = list()
         d = {}
@@ -620,21 +623,23 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
 
             data[n]["temps_entro"] = dict()
 
-            print(data[n]["boites"])
+            #print(data[n]["boites"])
 
             data[n]["temps"] = list()
             for key1 in data[n]["boites"].keys():
                 data[n]["temps_entro"][key1] = list()
                 for key2, val in data[n]["boites"][key1].items():
                     #data[n]["temps"] += list(val.values())
-                    print(key2, list(val.values()))
+                    #print(key2, list(val.values()))
                     temp = dict()
                     temp["temps"] = mean(list(val.values()))
                     temp["entro"] = key2
                     data[n]["temps_entro"][key1].append(temp)
 
+            print([i["entro"] for i in data[n]["temps_entro"][key]])
+
             for key in data[n]["temps_entro"].keys():
-                print(key)
+                #print(key)
                 data[n]["ax"] = d[n].plot([i["entro"] for i in data[n]["temps_entro"][key]],
                                             [((i["temps"])) for i in data[n]["temps_entro"][key]],
                                           marker='o',
@@ -642,8 +647,8 @@ for param, n in zip(sys.argv[1:], range(1, len(sys.argv))):
                                           label=key,
                                           linewidth=1.0,
                                           markersize=2.0)
-                d[n].set_xlabel("temps (sec)")
-                d[n].set_ylabel("entropie")
+                d[n].set_xlabel("entropie")
+                d[n].set_ylabel("temps (sec)")
                 d[n].legend(loc="upper left")
             """
             
