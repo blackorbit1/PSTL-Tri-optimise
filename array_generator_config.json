@@ -3,8 +3,8 @@
 
     "methode_tri" : "nb_runs_given_by_entropy",
 
-    "nb_listes" : 20,
-    "taille" : "t + 5000",
+    "nb_listes" : 1,
+    "taille" : "t + 20000",
     "nb_repetitions": 500,
 
     "taille_depart" : 0,
@@ -23,6 +23,6 @@
     "delta_separation_runs" : 0.5,
     "_delta_separation_runsinfos" : "en %, uniquement pour parti_tri_delta",
 
-    "entropy" : "0 if repetition == 0 else (round((la + 0.1), 1) if (rep % (nbrep / 10)) == 0 else la)",
+    "entropy" : "0 if rep == 0 else (round((la + 0.1), 1) if (rep % (nbrep / 10)) == 0 else la)",
     "_entropy_runsinfos" : "en %, uniquement pour nb_runs_given_by_entropy"
 }

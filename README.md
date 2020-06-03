@@ -34,7 +34,7 @@ Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 
 **Variable entropie :**
 - la = entropie de l'itération précédente (0 à la 1ère itération)
-- nième répétition (en partant de 0)
+- rep = nième répétition (en partant de 0)
 
 
 ## Utilisation de generateur_graphique.py
@@ -56,7 +56,12 @@ Voici les différents types de graphiques disponibles :
 - **temps/entropie**\
   x = valeur entropie\
   y = temps execution
- 
+- **heatmap**\
+  -> pout chaque algo :\
+  x = taille liste\
+  y = entropie (en % de 0 à 1 avec 1 l'entropie maximum parmis toutes les heatmaps)\
+  z = temps d'execution
+
 Exemple : 
 ```BASH
 $ python3 generateur_graphique.py temps/entropie temps/taille`
