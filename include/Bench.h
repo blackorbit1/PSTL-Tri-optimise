@@ -132,39 +132,36 @@ void launchBench(std::istream& infile, std::ostream& out){
     std::string line;
     std::vector<int> vect;
 
-//    std::vector<BenchMark<TimWrap>> arrayTim;
-//    std::vector<BenchMark<AdaptiveShiverSortWrap>> arrayASS;
+    std::vector<BenchMark<TimWrap>> arrayTim;
+    std::vector<BenchMark<AdaptiveShiverSortWrap>> arrayASS;
     std::vector<BenchMark<IntroWrap>> arrayIntro;
-//    std::vector<BenchMark<MergeSortWrap>> arrayMerge;
-//    std::vector<BenchMark<HybrMergeSortWrap>> arrayMergeIns;
+    std::vector<BenchMark<MergeSortWrap>> arrayMerge;
+    std::vector<BenchMark<HybrMergeSortWrap>> arrayMergeIns;
 
     while(std::getline(infile, line) && std::getline(infile, meta)){
         split(line, vect);
 
-
-//        arrayTim.push_back(BenchMark<TimWrap>(vect, "TimSort", (char*)meta.c_str()));
-//        arrayASS.push_back(BenchMark<AdaptiveShiverSortWrap>(vect, "AdaptativeShiverSort", (char*)meta.c_str()));
+        arrayTim.push_back(BenchMark<TimWrap>(vect, "TimSort", (char*)meta.c_str()));
+        arrayASS.push_back(BenchMark<AdaptiveShiverSortWrap>(vect, "AdaptativeShiverSort", (char*)meta.c_str()));
         arrayIntro.push_back(BenchMark<IntroWrap>(vect, "stdSort", (char*)meta.c_str()));
-//        arrayMerge.push_back(BenchMark<MergeSortWrap>(vect, "MergeSort", (char*)meta.c_str()));
-//        arrayMergeIns.push_back(BenchMark<HybrMergeSortWrap>(vect, "HybridMergeSort", (char*)meta.c_str()));
+        arrayMerge.push_back(BenchMark<MergeSortWrap>(vect, "MergeSort", (char*)meta.c_str()));
+        arrayMergeIns.push_back(BenchMark<HybrMergeSortWrap>(vect, "HybridMergeSort", (char*)meta.c_str()));
 
-//        arrayTim.back().launchBench();
-//        arrayASS.back().launchBench();
+        arrayTim.back().launchBench();
+        arrayASS.back().launchBench();
         arrayIntro.back().launchBench();
-//        arrayMerge.back().launchBench();
-//        arrayMergeIns.back().launchBench();
+        arrayMerge.back().launchBench();
+        arrayMergeIns.back().launchBench();
     }
 
     out << "{\n"
         << "\t\"content\": [";
 
-    for(int i = 0; i < arrayIntro.size(); i++){
-        if(i != arrayIntro.size()-1)
-            out << arrayIntro[i] << ',';
-//            out << arrayTim[i] << ',' << arrayASS[i] << ',' << arrayIntro[i] << ',' << arrayMerge[i] << ',' << arrayMergeIns[i] << ',';
+    for(int i = 0; i < arrayASS.size(); i++){
+        if(i != arrayASS.size()-1)
+            out << arrayTim[i] << ',' << arrayASS[i] << ',' << arrayIntro[i] << ',' << arrayMerge[i] << ',' << arrayMergeIns[i] << ',';
         else
-            out << arrayIntro[i];
-//            out << arrayTim[i] << ',' << arrayASS[i] << ',' << arrayIntro[i] << ',' << arrayMerge[i] << ',' << arrayMergeIns[i];
+            out << arrayTim[i] << ',' << arrayASS[i] << ',' << arrayIntro[i] << ',' << arrayMerge[i] << ',' << arrayMergeIns[i];
     }
 
     out << "\t]\n}";
