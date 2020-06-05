@@ -19,6 +19,6 @@ nbrep = 2000
 la = 0
 
 for rep in range(nbrep):
-    la = 0 if rep == 0 else (round((la + 0.001), 3) if (rep % ((nbrep*3) / 1000)) == 0 else la)
+    la = 0 if rep == 0 else (round((la + 0.0001), 4) if (rep % ((nbrep*3) / 1000)) == 0 else la)
     print(la, end="\t")
 

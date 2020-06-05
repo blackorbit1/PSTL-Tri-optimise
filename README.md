@@ -47,13 +47,19 @@ Pour lancer toute la chaine de tests, executer `whole_execution.bash`
    * param_n: name of a graphic you want
  
    * -s / --size integer_1 ... integer_n : all list size you want to display
+
+   * -i / --intervale_entro integer_1 integer_2 : the interval of entropi you want to display
+                                                  (only for temps/taille_box graph)
+
 ```
 
 Voici les différents types de graphiques disponibles :
-- **temps/taille**\
+- **temps/taille** *-> en courbes*\
+  **temps/taille_box** *-> en boite à moustache*\
   x = taille\
   y = temps execution
-- **temps/entropie**\
+- **temps/entropie** *-> en boite à moustache*\
+  **new_temps/entropie_courbes** *-> en courbes*\
   x = valeur entropie\
   y = temps execution
 - **heatmap**\
@@ -64,7 +70,7 @@ Voici les différents types de graphiques disponibles :
 
 Exemple : 
 ```BASH
-$ python3 generateur_graphique.py temps/entropie temps/taille`
+$ python3 generateur_graphique.py heatmap temps/taille`
 ```
 
 ## Requirements
