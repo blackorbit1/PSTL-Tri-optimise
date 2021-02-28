@@ -20,6 +20,7 @@ Nombre de processeurs :     1
 Nombre total de coeurs :    4
 Mémoire (RAM) :             8 Go
 ```
+Pour avoir plus de précision sur les comparaisons entre les algorithmes ainsi que leur fonctionnement et leur implémentation, vous pouvez consulter le fichier [Rapport_final_pinto_dutra.pdf](Rapport_final_pinto_dutra.pdf).
 
 Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 
