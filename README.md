@@ -1,8 +1,25 @@
 # PSTL-Tri-optimise
 
 Test et implémentation de plusieurs algorithmes de tri en vue de trouver un
-successeur au TimSort
+successeur au TimSort.
+![graphiques](temps_entropie_courbe_lip9_tableaux.svg)
+En comparant Adaptative Shiver Sort avec d'autres algorithmes, on peut voir que ses performances sont tout à fait honorables.
+On remarque en effet que l’algorithme AdaptiveShiverSort suit de très près les performances de l’algorithme Tim Sort (avec un léger avantage pour l’AdaptiveShiverSort) ce qui peut s’expliquer par leur grande similarité en termes de stratégie de fusion des runs.
 
+Ce test a été fait sur la configuration suivante :
+```
+Nom du modèle :             MacBook Pro (13-inch, 2018, Four Thunderbolt 3 Ports)
+Système d’exploitation :    MacOS 10.14.1 (18B75)
+C++ version :               4.2.1
+Nom du processeur :         Intel(R) Core(TM) i5-8259U CPU @ 2.30GHz 64bit
+       L1d cache:   32K
+       L1i cache:   32K
+       L2 cache:    262K
+       L3 cache:    6291K
+Nombre de processeurs :     1
+Nombre total de coeurs :    4
+Mémoire (RAM) :             8 Go
+```
 
 Pour lancer toute la chaine de tests, executer `whole_execution.bash`
 
